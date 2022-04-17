@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import {DEFAULT_VIEWER_OPTIONS} from './constants';
 import {
-  useClasses,
+  useClasses, useClientSize,
   useDispatchers,
   useHelpers,
   useLight,
@@ -15,8 +15,6 @@ import {ViewerProps} from './types';
 
 import './Viewer.scss';
 
-const clientSize = {clientWidth: 620, clientHeight: 480};
-
 const Viewer = (props: ViewerProps) => {
   const {
     animationRunner,
@@ -28,8 +26,9 @@ const Viewer = (props: ViewerProps) => {
   } = props;
 
   const {addDefaultHelpers, addDefaultLight} = {...DEFAULT_VIEWER_OPTIONS, ...options};
-  const threeEnv = useThreeEnvironment(clientSize);
   const mount = useRef<HTMLDivElement>(null);
+  const clientSize = useClientSize(mount);
+  const threeEnv = useThreeEnvironment(clientSize);
   const classes = useClasses(className);
   useDispatchers({threeEnv, dispatchers});
   useLight(threeEnv.scene, addDefaultLight);

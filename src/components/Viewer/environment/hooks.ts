@@ -1,4 +1,4 @@
-import {CameraProps, RendererProps, ControlsProps, EnvObject, SceneProps, UniversalHookProps} from './types';
+import {ControlsProps, EnvObject, SceneProps, UniversalHookProps} from './types';
 import {useState} from 'react';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
@@ -15,16 +15,16 @@ const useUniversalHook = ({builder}: UniversalHookProps) => {
 };
 
 export const envHooks = {
-  useCamera: (props: CameraProps) => useUniversalHook({
-    builder: () => createCamera(props),
+  useCamera: () => useUniversalHook({
+    builder: () => createCamera(),
   }) as THREE.Camera,
 
   useScene: (props: SceneProps) => useUniversalHook({
     builder: () => createScene(props),
   }) as THREE.Scene,
 
-  useRenderer: (props: RendererProps) => useUniversalHook({
-    builder: () => createRenderer(props),
+  useRenderer: () => useUniversalHook({
+    builder: () => createRenderer(),
   }) as THREE.Renderer,
 
   useControls: (props: ControlsProps) => useUniversalHook({

@@ -6,3 +6,4 @@ export {default as useOnSceneReady} from './useOnSceneReady';
 export {default as useDispatchers} from './useDispatchers';
 export {default as useOnDidMount} from './useOnDidMount';
 export {default as useThreeEnvironment} from './useThreeEnvironment';
+export {default as useClientSize} from './useClientSize';

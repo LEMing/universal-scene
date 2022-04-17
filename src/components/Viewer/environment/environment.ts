@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
-import {ControlsProps, SceneProps, LightProps, CameraProps, RendererProps} from './types';
+import {ControlsProps, SceneProps, LightProps} from './types';
 
 const DEFAULT_ENVIRONMENT = {
   clientHeight: 480,
@@ -12,14 +12,9 @@ const DEFAULT_ENVIRONMENT = {
   groundColor: 0x9EA4A7,
 };
 
-export const createCamera = (props: CameraProps) => {
+export const createCamera = () => {
   console.log(': createCamera');
-  const {clientSize} = props;
-  const {
-    clientHeight = DEFAULT_ENVIRONMENT.clientHeight,
-    clientWidth = DEFAULT_ENVIRONMENT.clientWidth,
-  } = clientSize;
-  const myCamera = new THREE.PerspectiveCamera(30, clientWidth / clientHeight, 1, 5000);
+  const myCamera = new THREE.PerspectiveCamera(30, undefined, 1, 5000);
   myCamera.position.set(0, 2, 20);
   return myCamera;
 };
@@ -36,17 +31,11 @@ export const createScene = (props: SceneProps = {}) => {
   return myScene;
 };
 
-export const createRenderer = (props: RendererProps) => {
+export const createRenderer = () => {
   console.log(': createRenderer');
-  const {clientSize} = props;
-  const {
-    clientHeight = DEFAULT_ENVIRONMENT.clientHeight,
-    clientWidth = DEFAULT_ENVIRONMENT.clientWidth,
-  } = clientSize;
   const myRenderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true, antialias: true});
   myRenderer.autoClear = true;
   myRenderer.setPixelRatio(window.devicePixelRatio);
-  myRenderer.setSize(clientWidth, clientHeight);
   myRenderer.shadowMap.enabled = true;
   myRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
   return myRenderer;
