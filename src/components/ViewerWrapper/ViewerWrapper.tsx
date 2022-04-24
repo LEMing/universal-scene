@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import Viewer from '../Viewer';
+import Viewer from '../TinyViewer';
 import * as THREE from 'three';
 import './ViewerWrapper.scss'
 const ViewerWrapper = () => {

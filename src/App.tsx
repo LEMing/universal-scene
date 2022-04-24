@@ -6,6 +6,7 @@ function App() {
     <div className="App">
       <ViewerWrapper/>
       <ViewerWrapper/>
+      <a href="#">My text</a>
     </div>
   );
 }
