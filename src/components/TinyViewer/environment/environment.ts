@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import {ControlsProps, SceneProps, LightProps} from './types';
+import {isWebGLAvailable} from './utils';
 
 const DEFAULT_ENVIRONMENT = {
   clientHeight: 480,
@@ -30,13 +31,8 @@ export const createScene = (props: SceneProps = {}) => {
 };
 
 export const createRenderer = () => {
-  let myRenderer
-  try {
-    myRenderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true, antialias: true});
-  } catch (error) {
-    console.debug('Oops, cannot create renderer');
-  }
-  if (myRenderer) {
+  if (isWebGLAvailable()) {
+    const myRenderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true, antialias: true});
     myRenderer.autoClear = true;
     myRenderer.setPixelRatio(window.devicePixelRatio);
     myRenderer.shadowMap.enabled = true;

@@ -1,5 +1,5 @@
 import useClasses from '../useClasses';
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 
 test('Should test the useClasses hook', () => {
   const { result } = renderHook(() => useClasses('my-test-class'));

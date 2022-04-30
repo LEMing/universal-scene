@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react'
 import useOnSceneReady from '../useOnSceneReady';
 
 describe('Should test the useOnSceneReady hook', () => {
