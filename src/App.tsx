@@ -4,9 +4,8 @@ import './App.scss'
 function App() {
   return (
     <div className="App">
+      <div className="App-Title">Tiny Viewer</div>
       <ViewerWrapper/>
-      <ViewerWrapper/>
-      <a href="#">My text</a>
     </div>
   );
 }

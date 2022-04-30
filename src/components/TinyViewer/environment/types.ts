@@ -6,7 +6,7 @@ export interface UniversalHookProps {
 }
 
 export interface SceneProps {
-  color?: number,
+  background?: number,
   fog?: number,
 }
 

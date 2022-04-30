@@ -20,6 +20,6 @@ jest.mock('../components/TinyViewer/hooks/useInitMethod', () => () => jest.fn())
 
 test('renders learn react link', () => {
   render(<App />);
-  const linkElement = screen.getByText('My text');
+  const linkElement = screen.getByText('Tiny Viewer');
   expect(linkElement).toBeInTheDocument();
 });

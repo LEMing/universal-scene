@@ -13,32 +13,37 @@ const DEFAULT_ENVIRONMENT = {
 };
 
 export const createCamera = () => {
-  console.log(': createCamera');
   const myCamera = new THREE.PerspectiveCamera(30, undefined, 1, 5000);
   myCamera.position.set(0, 2, 20);
   return myCamera;
 };
 
 export const createScene = (props: SceneProps = {}) => {
-  console.log(': createScene');
   const {
-    color = DEFAULT_ENVIRONMENT.sceneColor,
+    background = DEFAULT_ENVIRONMENT.sceneColor,
     fog = DEFAULT_ENVIRONMENT.fogColor,
   } = props;
   const myScene = new THREE.Scene();
-  myScene.background = new THREE.Color().setHex(color);
+  myScene.background = new THREE.Color().setHex(background);
   myScene.fog = new THREE.Fog(fog, 1, 5000);
   return myScene;
 };
 
 export const createRenderer = () => {
-  console.log(': createRenderer');
-  const myRenderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true, antialias: true});
-  myRenderer.autoClear = true;
-  myRenderer.setPixelRatio(window.devicePixelRatio);
-  myRenderer.shadowMap.enabled = true;
-  myRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  return myRenderer;
+  let myRenderer
+  try {
+    myRenderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true, antialias: true});
+  } catch (error) {
+    console.debug('Oops, cannot create renderer');
+  }
+  if (myRenderer) {
+    myRenderer.autoClear = true;
+    myRenderer.setPixelRatio(window.devicePixelRatio);
+    myRenderer.shadowMap.enabled = true;
+    myRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    return myRenderer as THREE.Renderer;
+  }
+  throw new Error('WebGL context is not available here');
 };
 
 export const createControls = (props: ControlsProps) => {

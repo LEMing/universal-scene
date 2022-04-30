@@ -1,4 +1,13 @@
 .App {
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &-Title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 24px 0;
+  }
 }
