@@ -1,9 +1,12 @@
-import {RefObject, useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 
-const useClientSize = (mount: RefObject<HTMLDivElement>) => {
-  const rootNode = mount.current;
-  const [height, setHeight] = useState(10);
-  const [width, setWidth] = useState(10);
+const useClientSize = () => {
+  const mountingPoint = useRef<HTMLDivElement>(null);
+  const rootNode = mountingPoint.current;
+  const [height, setHeight] = useState<number>(1);
+  const [width, setWidth] = useState<number>(1);
+
+  const [isMounted, setIsMounted] = useState(false);
 
   const handleResize = useCallback(() => {
     if (rootNode) {
@@ -12,17 +15,21 @@ const useClientSize = (mount: RefObject<HTMLDivElement>) => {
     }
   }, [rootNode]);
 
+  useEffect(function onMountingPointReady() {
+    if (mountingPoint.current) {
+      setIsMounted(true);
+    }
+  }, [mountingPoint]);
+
   useEffect(function runSizeObserver() {
     const observer = new ResizeObserver(handleResize);
-    if (rootNode) {
+    if (isMounted && rootNode) {
       observer.observe(rootNode);
     }
-    return () => {
-      observer.disconnect();
-    };
-  }, [rootNode, handleResize]);
+    return () => observer.disconnect();
+  }, [rootNode, handleResize, isMounted]);
 
-  return {clientHeight: height, clientWidth: width};
+  return {clientSize: {clientHeight: height, clientWidth: width}, mountingPoint};
 }
 
 export default useClientSize;

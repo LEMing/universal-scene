@@ -1,4 +1,5 @@
 import {Color} from 'three';
+import mockRenderer from '../../__mocks__/mockRenderer';
 import {createCamera, createControls, createLight, createRenderer, createScene} from '../environment';
 
 describe('Should test environment functions', () => {
@@ -40,11 +41,7 @@ describe('Should test environment functions', () => {
 
   test('Create Controls', () => {
     const camera = createCamera();
-    const mockRenderer = {domElement: {
-      style: {},
-      addEventListener: jest.fn(),
-    }};
-    // @ts-ignore
+    // @ts-ignore // We use mockRenderer here, it's fine
     const controls = createControls({camera, renderer: mockRenderer});
     expect(controls).toBeDefined();
     expect(controls.mouseButtons).toBeDefined();

@@ -18,20 +18,3 @@ export const createGridHelper = (props: GridHelperProps = {}) => {
 export const createOrdHelper = () => {
   return new THREE.AxesHelper(5);
 };
-
-interface CreateCube {
-  name: string;
-  color?: number;
-}
-
-export const createCube = (props: CreateCube) => {
-  const {
-    name,
-    color = 0x333333,
-  } = props;
-  const geometry = new THREE.BoxGeometry();
-  const material = new THREE.MeshStandardMaterial( { color} );
-  const cube = new THREE.Mesh(geometry, material);
-  cube.name = name;
-  return cube;
-}

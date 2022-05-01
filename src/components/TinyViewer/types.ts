@@ -13,12 +13,14 @@ export interface ViewerProps {
   animationRunner?: () => void;
   className?: string,
   dispatchers?: ViewerDispatchers,
-  object3D?: THREE.Object3D,
+  object3D?: Promise<THREE.Object3D>,
   onSceneReady?: () => void,
-  options?: {
-    addDefaultHelpers?: boolean,
-    addDefaultLight?: boolean,
-  }
+  options?: ViewerOptions,
+}
+
+export interface ViewerOptions {
+  addDefaultHelpers?: boolean,
+  addDefaultLight?: boolean,
 }
 
 export interface ClientAreaProps {

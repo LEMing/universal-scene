@@ -1,18 +1,10 @@
-import React, {useRef} from 'react';
-import {DEFAULT_VIEWER_OPTIONS} from './constants';
-import {
-  useClasses, useClientSize,
-  useDispatchers,
-  useHelpers,
-  useLight,
-  useObject3D,
-  useOnDidMount,
-  useOnSceneReady,
-  useThreeEnvironment,
-} from './hooks';
-
+import React, {useMemo} from 'react';
+import Preloader from './components/Preloader';
+import {useClasses, useClientSize} from './hooks';
+import useObject3DResolver from './hooks/useObject3DResolver';
 import {ViewerProps} from './types';
-
+import UniversalScene from './UniversalScene';
+import ViewerContext from './ViewerContext';
 import './Viewer.scss';
 
 const Viewer = (props: ViewerProps) => {
@@ -25,22 +17,31 @@ const Viewer = (props: ViewerProps) => {
     options,
   } = props;
 
-  const {addDefaultHelpers, addDefaultLight} = {...DEFAULT_VIEWER_OPTIONS, ...options};
-  const mount = useRef<HTMLDivElement>(null);
-  const clientSize = useClientSize(mount);
-  const threeEnv = useThreeEnvironment(clientSize);
+  const {clientSize, mountingPoint} = useClientSize();
   const classes = useClasses(className);
-  useDispatchers({threeEnv, dispatchers});
-  useLight(threeEnv.scene, addDefaultLight);
-  useHelpers(threeEnv.scene, addDefaultHelpers);
-  useObject3D(threeEnv.scene, object3D);
-  useOnSceneReady(onSceneReady);
-  useOnDidMount({threeEnv, mount, animationRunner});
+  const {isObject3DLoaded} = useObject3DResolver({object3D});
+
+  const content = useMemo(() => {
+    const isMounted = clientSize.clientWidth > 1;
+    const isEverythingReady = isMounted && isObject3DLoaded;
+    return isEverythingReady? <UniversalScene/> : <Preloader msg='Loading...'/>
+  }, [clientSize, isObject3DLoaded]);
 
   return (
-    <div className={classes}>
-      <div className="three-root" id="three-root" ref={mount} />
-    </div>
+    <ViewerContext.Provider value={{
+      animationRunner,
+      clientSize,
+      dispatchers,
+      object3D,
+      onSceneReady,
+      options,
+      threeRoot: mountingPoint.current,
+    }}>
+      <div className={classes}>
+        {content}
+        <div data-testid='three-root' className="three-root" id="three-root" ref={mountingPoint} />
+      </div>
+    </ViewerContext.Provider>
   );
 };
 

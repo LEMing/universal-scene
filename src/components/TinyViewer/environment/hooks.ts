@@ -14,20 +14,25 @@ const useUniversalHook = ({builder}: UniversalHookProps) => {
   return state;
 };
 
+const useCamera = () => useUniversalHook({
+  builder: () => createCamera(),
+}) as THREE.Camera;
+
+const useScene = (props: SceneProps) => useUniversalHook({
+  builder: () => createScene(props),
+}) as THREE.Scene;
+
+const useRenderer =  () => useUniversalHook({
+  builder: () => createRenderer(),
+}) as THREE.Renderer;
+
+const useControls = (props: ControlsProps) => useUniversalHook({
+  builder: () => createControls(props),
+}) as OrbitControls;
+
 export const envHooks = {
-  useCamera: () => useUniversalHook({
-    builder: () => createCamera(),
-  }) as THREE.Camera,
-
-  useScene: (props: SceneProps) => useUniversalHook({
-    builder: () => createScene(props),
-  }) as THREE.Scene,
-
-  useRenderer: () => useUniversalHook({
-    builder: () => createRenderer(),
-  }) as THREE.Renderer,
-
-  useControls: (props: ControlsProps) => useUniversalHook({
-    builder: () => createControls(props),
-  }) as OrbitControls,
-};
+  useCamera,
+  useScene,
+  useRenderer,
+  useControls,
+}

@@ -8,11 +8,9 @@ global.ResizeObserver = jest.fn().mockImplementation(() => ({
 }));
 
 test('Should create a default client dimensions', () => {
-  const mockRefObject = {
-    current: {offsetWidth: undefined, offsetHeight: undefined},
-  }
-  // @ts-ignore
-  const {result} = renderHook(() => useClientSize(mockRefObject));
-  // Expect to get default 10x10 size
-  expect(result.current).toEqual({clientHeight: 10, clientWidth: 10});
+  const {result} = renderHook(() => useClientSize());
+  // Expect to get default 1x1 size
+  const {clientSize, mountingPoint} = result.current;
+  expect(mountingPoint).toBeDefined();
+  expect(clientSize).toEqual({clientHeight: 1, clientWidth: 1});
 })

@@ -50,7 +50,7 @@ export const createControls = (props: ControlsProps) => {
   myControls.enablePan = false;
   myControls.enableZoom = true;
   myControls.maxDistance = 300;
-  myControls.minDistance = 10;
+  myControls.minDistance = 0.1;
   myControls.screenSpacePanning = false;
   myControls.target = new THREE.Vector3(0, 1.5, 0);
   myControls.mouseButtons = {
