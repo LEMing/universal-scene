@@ -2,6 +2,12 @@ import { renderHook } from '@testing-library/react'
 import {createScene} from '../../../environment';
 import useHelpers from '../useHelpers';
 
+jest.mock('three/examples/jsm/loaders/RGBELoader', () => ({
+  RGBELoader: jest.fn().mockImplementation(() => {
+    return {load: jest.fn()}
+  })
+}));
+
 describe('Should test useHelpers hook', () => {
   test('Should add 2 helper objects to the scene', () => {
     const scene = createScene();

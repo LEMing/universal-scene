@@ -28,7 +28,8 @@ describe('Should test environment functions', () => {
   });
 
   test('Create Renderer object', () => {
-    expect(() => createRenderer()).toThrow('WebGL context is not available here');
+    const renderer = createRenderer();
+    expect(renderer).toBeDefined();
   });
 
   test('Create Light', () => {

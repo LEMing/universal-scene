@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import {RGBELoader} from 'three/examples/jsm/loaders/RGBELoader';
 import {ControlsProps, SceneProps, LightProps} from './types';
 import {isWebGLAvailable} from './utils';
 
@@ -25,18 +26,24 @@ export const createScene = (props: SceneProps = {}) => {
     fog = DEFAULT_ENVIRONMENT.fogColor,
   } = props;
   const myScene = new THREE.Scene();
-  myScene.background = new THREE.Color().setHex(background);
-  myScene.fog = new THREE.Fog(fog, 1, 5000);
+  myScene.background = new THREE.Color(background);
+  new RGBELoader().load( 'data/venice_sunset_1k.hdr', (dataTexture) => {
+    myScene.environment = dataTexture;
+    myScene.environment.mapping = THREE.EquirectangularReflectionMapping;
+  });
+  myScene.fog = new THREE.Fog( fog, 10, 50 );
   return myScene;
 };
 
 export const createRenderer = () => {
   if (isWebGLAvailable()) {
     const myRenderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true, antialias: true});
-    myRenderer.autoClear = true;
     myRenderer.setPixelRatio(window.devicePixelRatio);
     myRenderer.shadowMap.enabled = true;
     myRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    myRenderer.outputEncoding = THREE.sRGBEncoding;
+    myRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+    myRenderer.toneMappingExposure = 0.85;
     return myRenderer as THREE.Renderer;
   }
   throw new Error('WebGL context is not available here');

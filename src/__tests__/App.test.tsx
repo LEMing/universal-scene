@@ -10,6 +10,12 @@ global.ResizeObserver = jest.fn().mockImplementation(() => ({
   disconnect: jest.fn(),
 }));
 
+jest.mock('three/examples/jsm/loaders/RGBELoader', () => ({
+  RGBELoader: jest.fn().mockImplementation(() => {
+    return {load: jest.fn()}
+  })
+}));
+
 jest.mock('../components/TinyViewer/environment/environment', () => ({
     ...jest.requireActual('../components/TinyViewer/environment/environment'),
     createRenderer: () => (mockRenderer),

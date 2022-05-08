@@ -6,6 +6,12 @@ import mockViewerContext from '../../__mocks__/mockViewerContext';
 import UniversalScene from '../UniversalScene';
 import ViewerContext from '../../ViewerContext';
 
+jest.mock('three/examples/jsm/loaders/RGBELoader', () => ({
+  RGBELoader: jest.fn().mockImplementation(() => {
+    return {load: jest.fn()}
+  })
+}));
+
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
   unobserve: jest.fn(),

@@ -9,9 +9,14 @@ export const createGridHelper = (props: GridHelperProps = {}) => {
     size = 10,
     divisions = 10
   } = props;
-  const helper = new THREE.GridHelper(size, divisions);
+  const helper = new THREE.GridHelper( size, divisions);
   helper.castShadow = false;
   helper.receiveShadow = false;
+  if (!Array.isArray(helper.material)) {
+    helper.material.opacity = 0.2;
+    helper.material.depthWrite = false;
+    helper.material.transparent = true;
+  }
   return helper;
 };
 

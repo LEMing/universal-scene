@@ -3,6 +3,8 @@
 
 module.exports = {
 
+  setupFilesAfterEnv: ['<rootDir>/jest-scripts/global-mocks.js'],
+
   // The test environment that will be used for testing
   testEnvironment: 'jsdom',
 

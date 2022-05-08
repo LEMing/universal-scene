@@ -1,27 +1,8 @@
 import {render, screen, waitFor} from '@testing-library/react';
 import React from 'react';
 import {createCube} from '../../utils';
-import mockRenderer from '../__mocks__/mockRenderer';
 import Viewer from '../Viewer';
 import '@testing-library/jest-dom';
-
-global.ResizeObserver = jest.fn().mockImplementation(() => ({
-  observe: jest.fn(),
-  unobserve: jest.fn(),
-  disconnect: jest.fn(),
-}));
-
-jest.mock('../environment/environment', () => ({
-    ...jest.requireActual('../environment/environment'),
-    createRenderer: () => (mockRenderer),
-    createControls: () => ({}),
-  }),
-);
-
-jest.mock('../hooks/useClientSize', () => () => ({
-  clientSize: {clientHeight: 2, clientWidth: 2},
-  mountingPoint: jest.fn()
-}));
 
 describe('Viewer component', () => {
   test('Should find "Loading..." message', async () => {

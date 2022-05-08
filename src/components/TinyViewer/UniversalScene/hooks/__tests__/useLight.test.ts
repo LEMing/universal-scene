@@ -2,6 +2,12 @@ import { renderHook } from '@testing-library/react'
 import {createScene} from '../../../environment';
 import useLight from '../useLight';
 
+jest.mock('three/examples/jsm/loaders/RGBELoader', () => ({
+  RGBELoader: jest.fn().mockImplementation(() => {
+    return {load: jest.fn()}
+  })
+}));
+
 describe('Should test useLight hook', () => {
   test('Should add 2 light objects to the scene', () => {
     const scene = createScene();
