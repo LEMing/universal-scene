@@ -8,14 +8,15 @@ const useObject3D = (scene: THREE.Scene, object3D?: Promise<THREE.Object3D> | TH
 
   useEffect(function loadObject3D() {
     if (object3D) {
+      setIsObjectAdded(false);
       Promise.resolve(object3D)
       .then((data) => {
         if (object3DID !== data.uuid) {
           removeObjectByUUID(scene, object3DID);
           scene.add(data);
           setObject3DID(data.uuid);
-          setIsObjectAdded(true);
         }
+        setIsObjectAdded(true);
       })
       .catch((error: ErrorEvent) => {
         console.error(error.message);

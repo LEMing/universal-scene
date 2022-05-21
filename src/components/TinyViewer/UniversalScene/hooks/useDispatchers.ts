@@ -5,6 +5,7 @@ type UseDispatchers = {
   threeEnv: ThreeEnvironment;
   dispatchers?: ViewerDispatchers;
 }
+
 const useDispatchers = (props: UseDispatchers) => {
   const {threeEnv, dispatchers} = props;
   const {scene, camera, renderer, controls} = threeEnv;

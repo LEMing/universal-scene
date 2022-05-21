@@ -1,7 +1,7 @@
-import React, {useMemo} from 'react';
+import classNames from 'classnames';
+import React, {useMemo, useState} from 'react';
 import Preloader from './components/Preloader';
 import {useClasses, useClientSize} from './hooks';
-import useObject3DResolver from './hooks/useObject3DResolver';
 import {ViewerProps} from './types';
 import UniversalScene from './UniversalScene';
 import ViewerContext from './ViewerContext';
@@ -18,14 +18,18 @@ const Viewer = (props: ViewerProps) => {
   } = props;
 
   const {clientSize, mountingPoint} = useClientSize();
+  const [isLoading, setIsLoading] = useState(false);
   const classes = useClasses(className);
-  const {isObject3DLoaded} = useObject3DResolver({object3D});
 
   const content = useMemo(() => {
     const isMounted = clientSize.clientWidth > 1;
-    const isEverythingReady = isMounted && isObject3DLoaded;
-    return isEverythingReady? <UniversalScene/> : <Preloader msg='Loading...'/>
-  }, [clientSize, isObject3DLoaded]);
+    return isMounted? <UniversalScene/> : <Preloader msg='Loading...'/>
+  }, [clientSize]);
+
+  const threeRootClassnames = classNames({
+    'three-root': true,
+    'loading': isLoading,
+  });
 
   return (
     <ViewerContext.Provider value={{
@@ -35,11 +39,12 @@ const Viewer = (props: ViewerProps) => {
       object3D,
       onSceneReady,
       options,
+      setIsLoading,
       threeRoot: mountingPoint.current,
     }}>
       <div className={classes}>
         {content}
-        <div data-testid='three-root' className="three-root" id="three-root" ref={mountingPoint} />
+        <div data-testid='three-root' className={threeRootClassnames} id="three-root" ref={mountingPoint} />
       </div>
     </ViewerContext.Provider>
   );

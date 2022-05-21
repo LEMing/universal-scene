@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useContext} from 'react';
 import classNames from 'classnames';
 
@@ -27,6 +27,7 @@ const UniversalScene = () => {
     onSceneReady,
     options,
     threeRoot,
+    setIsLoading,
   } = useContext(ViewerContext);
 
   const {addDefaultHelpers, addDefaultLight} = {...DEFAULT_VIEWER_OPTIONS, ...options};
@@ -37,6 +38,12 @@ const UniversalScene = () => {
   const {isObjectAdded} = useObject3D(threeEnv.scene, object3D);
   useOnSceneReady(onSceneReady);
   useOnDidMount({threeEnv, threeRoot, animationRunner});
+
+
+  useEffect(function onObjectLoaded() {
+    setIsLoading(!isObjectAdded);
+  }, [isObjectAdded]);
+
   const sceneClasses = classNames({
     'universal-scene': true,
     'fog': isObjectAdded,

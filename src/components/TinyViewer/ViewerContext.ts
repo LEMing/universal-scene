@@ -1,4 +1,4 @@
-import {createContext} from 'react';
+import {createContext, Dispatch} from 'react';
 import * as THREE from 'three';
 import {ClientAreaProps, ViewerDispatchers, ViewerOptions} from './types';
 
@@ -10,6 +10,7 @@ export interface IViewerContext {
   options?: ViewerOptions;
   threeRoot: HTMLDivElement | null;
   clientSize: ClientAreaProps;
+  setIsLoading: Dispatch<boolean>;
 }
 
 const ViewerContext = createContext<IViewerContext>({} as IViewerContext);

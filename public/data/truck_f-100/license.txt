@@ -1,0 +1,11 @@
+Model Information:
+* title:	Truck F-100
+* source:	https://sketchfab.com/3d-models/truck-f-100-c54cd67a8a1c45299db6b4616621d592
+* author:	eman8el.3di (https://sketchfab.com/eman8el.3di)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Truck F-100" (https://sketchfab.com/3d-models/truck-f-100-c54cd67a8a1c45299db6b4616621d592) by eman8el.3di (https://sketchfab.com/eman8el.3di) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

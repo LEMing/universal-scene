@@ -7,6 +7,7 @@ type UseInitMethod = {
   renderer: THREE.Renderer,
   controls: OrbitControls;
 }
+
 const useInitMethod = ({threeRoot, renderer, controls}: UseInitMethod) => {
   return useCallback(() => {
     if (threeRoot) {

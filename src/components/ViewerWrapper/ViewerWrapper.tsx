@@ -2,12 +2,13 @@ import React, {useCallback, useMemo, useState} from 'react';
 import Viewer from '../TinyViewer';
 import * as THREE from 'three';
 import {loadGLB, createCube} from '../utils';
-
+import Selector from './components/Selector';
+import {CAR_MODELS} from './config';
 import './ViewerWrapper.scss';
 
 const ViewerWrapper = () => {
   const [scene, setScene] = useState<THREE.Scene | null>(null);
-  const [path, setPath] = useState('./data/free_datsun_280z/scene.gltf')
+  const [path, setPath] = useState(CAR_MODELS[0].value);
 
   const object3D = useMemo(async () => {
     const group = new THREE.Group();
@@ -36,10 +37,7 @@ const ViewerWrapper = () => {
 
   return (
     <>
-      <select id="cars" name="cars" onChange={handleSelect}>
-        <option value="./data/free_datsun_280z/scene.gltf">Datsun</option>
-        <option value="./data/xyz_school_coursework_highpoly_porsche_singer/scene.gltf">Porsche</option>
-      </select>
+      <Selector handleSelect={handleSelect} data={CAR_MODELS}/>
       <div className="viewer-wrapper-container">
         <Viewer animationRunner={animationRunner} dispatchers={{setScene}} object3D={object3D}/>
       </div>
