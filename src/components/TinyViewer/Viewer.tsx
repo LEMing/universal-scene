@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, {useMemo, useState} from 'react';
 import Preloader from './components/Preloader';
+import {DEFAULT_VIEWER_OPTIONS} from './constants';
 import {useClasses, useClientSize} from './hooks';
 import {ViewerProps} from './types';
 import UniversalScene from './UniversalScene';
@@ -38,13 +39,13 @@ const Viewer = (props: ViewerProps) => {
       dispatchers,
       object3D,
       onSceneReady,
-      options,
+      options: {...DEFAULT_VIEWER_OPTIONS, ...options},
       setIsLoading,
       threeRoot,
     }}>
       <div className={classes}>
         {content}
-        <div data-testid='three-root' className={threeRootClassnames} id="three-root" ref={mountingPoint} />
+        <div data-testid={`three-root loading-${isLoading}`} className={threeRootClassnames} id="three-root" ref={mountingPoint} />
       </div>
     </ViewerContext.Provider>
   );

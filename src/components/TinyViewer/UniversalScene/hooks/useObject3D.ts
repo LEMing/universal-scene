@@ -1,30 +1,28 @@
 import {useEffect, useState} from 'react';
 import * as THREE from 'three';
-import {removeObjectByUUID} from '../utils';
-
+import {removeObjectByName} from '../utils';
+import {isItNewObject} from './utils';
+const FINAL_OBJECT_NAME = 'final-object-on-scene';
 const useObject3D = (scene: THREE.Scene, object3D?: Promise<THREE.Object3D> | THREE.Object3D) => {
   const [isObjectAdded, setIsObjectAdded] = useState(false);
-  const [object3DID, setObject3DID] = useState<string | null>(null);
-
   useEffect(function loadObject3D() {
     if (object3D) {
       setIsObjectAdded(false);
       Promise.resolve(object3D)
       .then((data) => {
-        if (object3DID !== data.uuid) {
-          removeObjectByUUID(scene, object3DID);
+        data.name = FINAL_OBJECT_NAME;
+        if (isItNewObject(data, scene)) {
+          removeObjectByName(scene, FINAL_OBJECT_NAME);
           scene.add(data);
-          setObject3DID(data.uuid);
         }
         setIsObjectAdded(true);
       })
       .catch((error: ErrorEvent) => {
         console.error(error.message);
         setIsObjectAdded(false);
-        setObject3DID(null);
       })
     }
-  }, [scene, object3D, object3DID])
+  }, [scene, object3D])
   return {isObjectAdded};
 }
 

@@ -18,9 +18,31 @@ export interface ViewerProps {
   options?: ViewerOptions,
 }
 
+export interface EnvironmentOptions {
+  clientHeight: number,
+  clientWidth: number,
+  lightOptions: {
+    lightIntensity: number,
+    skyColor: number,
+    groundColor: number,
+  }
+  sceneOptions: {
+    envMapUrl: string,
+    sceneColor: number,
+    fog: SceneFog
+  }
+}
+
+export type SceneFog = {
+  color: number,
+  near: number,
+  far: number
+}
+
 export interface ViewerOptions {
-  addDefaultHelpers?: boolean,
-  addDefaultLight?: boolean,
+  addDefaultHelpers: boolean,
+  addDefaultLight: boolean,
+  environment: EnvironmentOptions,
 }
 
 export interface ClientAreaProps {

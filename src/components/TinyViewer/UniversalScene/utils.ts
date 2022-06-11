@@ -6,3 +6,10 @@ export const removeObjectByUUID = (scene: THREE.Scene, uuid: string | null) => {
     if (previousObject) scene.remove(previousObject);
   }
 }
+
+export const removeObjectByName = (scene: THREE.Scene, name?: string) => {
+  if (name) {
+    const previousObject = scene.getObjectByName(name);
+    if (previousObject) scene.remove(previousObject);
+  }
+}

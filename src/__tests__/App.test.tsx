@@ -36,12 +36,12 @@ test('Should render the App and wait until object-mounted marker will be visible
   await waitForElementToBeRemoved(loader);
 
   await waitFor(async() => {
-    const threeRoot = screen.getByTestId('three-root');
+    const threeRoot = screen.getByTestId('three-root loading-false');
     await expect(threeRoot).toBeInTheDocument();
   });
 
   await waitFor(async() => {
-    const universalScene = screen.getByTestId('universal-scene');
+    const universalScene = screen.getByTestId('universal-scene is-ready-true');
     await expect(universalScene).toBeInTheDocument();
     await expect(loader).not.toBeVisible();
   });

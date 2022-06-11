@@ -17,9 +17,12 @@ export const createGridHelper = (props: GridHelperProps = {}) => {
     helper.material.depthWrite = false;
     helper.material.transparent = true;
   }
+  helper.name = 'Default Grid Helper';
   return helper;
 };
 
 export const createOrdHelper = () => {
-  return new THREE.AxesHelper(5);
+  const ordHelper = new THREE.AxesHelper(5);
+  ordHelper.name = 'Default Ord Helper';
+  return ordHelper
 };

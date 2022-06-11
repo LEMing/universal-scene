@@ -18,9 +18,19 @@ const useCamera = () => useUniversalHook({
   builder: () => createCamera(),
 }) as THREE.Camera;
 
-const useScene = (props: SceneProps) => useUniversalHook({
-  builder: () => createScene(props),
-}) as THREE.Scene;
+const useScene = (props: SceneProps) => {
+  const scene = useUniversalHook({
+    builder: () => createScene(props),
+  }) as THREE.Scene;
+  const {fog, background} = props;
+  if (scene.fog) {
+    scene.fog = new THREE.Fog(fog.color, fog.near, fog.far);
+  }
+  if (scene.background) {
+    scene.background = new THREE.Color(background);
+  }
+  return scene;
+};
 
 const useRenderer =  () => useUniversalHook({
   builder: () => createRenderer(),

@@ -3,7 +3,6 @@ import {useContext} from 'react';
 import classNames from 'classnames';
 
 import Preloader from '../components/Preloader';
-import {DEFAULT_VIEWER_OPTIONS} from '../constants';
 import {
   useDispatchers,
   useHelpers,
@@ -13,10 +12,9 @@ import {
   useOnSceneReady,
   useThreeEnvironment
 } from './hooks';
+import ViewerContext from '../ViewerContext';
 
 import './UniversalScene.scss';
-
-import ViewerContext from '../ViewerContext';
 
 const UniversalScene = () => {
   const {
@@ -30,26 +28,26 @@ const UniversalScene = () => {
     setIsLoading,
   } = useContext(ViewerContext);
 
-  const {addDefaultHelpers, addDefaultLight} = {...DEFAULT_VIEWER_OPTIONS, ...options};
+  const {addDefaultHelpers} = options;
   const threeEnv = useThreeEnvironment(clientSize);
   useDispatchers({threeEnv, dispatchers});
-  useLight(threeEnv.scene, addDefaultLight);
+  useLight(threeEnv.scene, options);
   useHelpers(threeEnv.scene, addDefaultHelpers);
   const {isObjectAdded} = useObject3D(threeEnv.scene, object3D);
   useOnSceneReady(onSceneReady);
   useOnDidMount({threeEnv, threeRoot, animationRunner});
 
-
   useEffect(function onObjectLoaded() {
     setIsLoading(!isObjectAdded);
-  }, [isObjectAdded]);
+  }, [isObjectAdded, setIsLoading]);
 
   const sceneClasses = classNames({
     'universal-scene': true,
     'fog': isObjectAdded,
   });
+
   return (
-    <div data-testid='universal-scene' className={sceneClasses}>
+    <div data-testid={`universal-scene is-ready-${isObjectAdded}`} className={sceneClasses}>
       {!isObjectAdded && <Preloader msg={'Preparing scene...'}/>}
     </div>)
 };

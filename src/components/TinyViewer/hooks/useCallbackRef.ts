@@ -7,7 +7,7 @@ const useCallbackRef = (): [HTMLDivElement | null, (node: HTMLDivElement) => voi
     if (node) {
       setNode(node);
     }
-  }, [node]);
+  }, []);
 
   return [node, callbackRef];
 }
