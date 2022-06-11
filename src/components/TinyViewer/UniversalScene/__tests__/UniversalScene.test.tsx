@@ -34,7 +34,7 @@ test('Should render UniversalScene', async() => {
   );
 
   await waitFor(() => {
-    const universalScene = screen.getByTestId('universal-scene');
+    const universalScene = screen.getByTestId('universal-scene is-ready-false');
     expect(universalScene).toBeInTheDocument();
   });
 });

@@ -4,34 +4,29 @@ import {RGBELoader} from 'three/examples/jsm/loaders/RGBELoader';
 import {ControlsProps, SceneProps, LightProps} from './types';
 import {isWebGLAvailable} from './utils';
 
-const DEFAULT_ENVIRONMENT = {
-  clientHeight: 480,
-  clientWidth: 640,
-  fogColor: 0xFFFFFF,
-  lightIntensity: 1,
-  sceneColor: 0xFAFDFE,
-  skyColor: 0xF7FBFB,
-  groundColor: 0x9EA4A7,
-};
-
 export const createCamera = () => {
   const myCamera = new THREE.PerspectiveCamera(30, undefined, 1, 5000);
   myCamera.position.set(0, 2, 20);
   return myCamera;
 };
 
-export const createScene = (props: SceneProps = {}) => {
+export const createScene = (props: SceneProps) => {
   const {
-    background = DEFAULT_ENVIRONMENT.sceneColor,
-    fog = DEFAULT_ENVIRONMENT.fogColor,
+    background,
+    fog,
+    envMapUrl,
   } = props;
   const myScene = new THREE.Scene();
   myScene.background = new THREE.Color(background);
-  new RGBELoader().load( 'data/venice_sunset_1k.hdr', (dataTexture) => {
-    myScene.environment = dataTexture;
-    myScene.environment.mapping = THREE.EquirectangularReflectionMapping;
-  });
-  myScene.fog = new THREE.Fog( fog, 10, 50 );
+  if (envMapUrl) {
+    new RGBELoader().load( envMapUrl, (dataTexture) => {
+      myScene.environment = dataTexture;
+      myScene.environment.mapping = THREE.EquirectangularReflectionMapping;
+    });
+  }
+  if (fog) {
+    myScene.fog = new THREE.Fog(fog.color, fog.near, fog.far);
+  }
   return myScene;
 };
 
@@ -68,15 +63,15 @@ export const createControls = (props: ControlsProps) => {
   return myControls;
 };
 
-export const createLight = (props: LightProps = {}): THREE.Object3D[] => {
+export const createLight = (props: LightProps): THREE.Object3D[] => {
   const {
-    intensity = DEFAULT_ENVIRONMENT.lightIntensity,
-    skyColor = DEFAULT_ENVIRONMENT.skyColor,
-    groundColor = DEFAULT_ENVIRONMENT.groundColor,
+    intensity,
+    skyColor,
+    groundColor,
   } = props;
   const atmosphereLight = new THREE.HemisphereLight(skyColor, groundColor, intensity);
-
-  const directionalLight = new THREE.DirectionalLight(0xffffff, intensity / 2);
+  atmosphereLight.name = 'atmosphereLight';
+  const directionalLight = new THREE.DirectionalLight(0xffffff, intensity);
   directionalLight.position.y = 50;
   directionalLight.position.x = 100;
   directionalLight.castShadow = true;
@@ -84,6 +79,7 @@ export const createLight = (props: LightProps = {}): THREE.Object3D[] => {
   directionalLight.shadow.mapSize.height = 1024 * 4;
   directionalLight.shadow.radius = 1;
   directionalLight.shadow.bias = 0.00001;
+  directionalLight.name = 'directionalLight';
 
   return [atmosphereLight, directionalLight];
 };

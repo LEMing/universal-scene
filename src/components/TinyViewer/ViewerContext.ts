@@ -7,7 +7,7 @@ export interface IViewerContext {
   dispatchers?: ViewerDispatchers;
   object3D?: Promise<THREE.Object3D>;
   onSceneReady?: () => void;
-  options?: ViewerOptions;
+  options: ViewerOptions;
   threeRoot: HTMLDivElement | null;
   clientSize: ClientAreaProps;
   setIsLoading: Dispatch<boolean>;

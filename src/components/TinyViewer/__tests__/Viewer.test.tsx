@@ -1,6 +1,6 @@
 import {render, screen, waitFor} from '@testing-library/react';
 import React from 'react';
-import {createCube} from '../../utils';
+import {createBox} from '../../utils';
 import Viewer from '../Viewer';
 import '@testing-library/jest-dom';
 
@@ -15,11 +15,11 @@ describe('Viewer component', () => {
   });
 
   test('Should find the universal scene test id', async () => {
-    const object3D = Promise.resolve(createCube({name: 'My cube'}));
+    const object3D = Promise.resolve(createBox({name: 'My cube'}));
     render(<Viewer object3D={object3D}/>);
 
     await waitFor(() => {
-      const loader = screen.getByTestId('universal-scene');
+      const loader = screen.getByTestId('universal-scene is-ready-true');
       expect(loader).toBeInTheDocument();
     });
   });

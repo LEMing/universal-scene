@@ -1,5 +1,6 @@
 import {Color} from 'three';
 import mockRenderer from '../../__mocks__/mockRenderer';
+import {DEFAULT_LIGHT_OPTIONS, DEFAULT_SCENE_OPTIONS} from '../../constants';
 import {createCamera, createControls, createLight, createRenderer, createScene} from '../environment';
 
 describe('Should test environment functions', () => {
@@ -9,20 +10,20 @@ describe('Should test environment functions', () => {
   });
 
   test('Create a Scene object', () => {
-    const scene = createScene();
+    const scene = createScene(DEFAULT_SCENE_OPTIONS);
     expect(scene.type).toEqual('Scene');
   });
 
   test('Create a Scene with fog', () => {
     const fogColor = 0xFF000;
-    const scene = createScene({fog: fogColor});
+    const scene = createScene({...DEFAULT_SCENE_OPTIONS, fog: {color: fogColor, near: 10, far: 50}});
     const sceneFog = scene.fog?.color.getHex();
     expect(sceneFog).toEqual(fogColor);
   });
 
   test('Create a Scene with background color', () => {
     const backgroundColor = 0x00FF00;
-    const scene = createScene({background: backgroundColor});
+    const scene = createScene({...DEFAULT_SCENE_OPTIONS, background: backgroundColor});
     const sceneBackground: Color = scene.background as Color;
     expect(sceneBackground.getHex()).toEqual(backgroundColor);
   });
@@ -33,7 +34,7 @@ describe('Should test environment functions', () => {
   });
 
   test('Create Light', () => {
-    const light = createLight();
+    const light = createLight(DEFAULT_LIGHT_OPTIONS);
     expect(light.length).toEqual(2);
     const [atmosphereLight, directionalLight] = light;
     expect(atmosphereLight.type).toEqual('HemisphereLight');

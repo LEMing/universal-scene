@@ -3,3 +3,21 @@
     height: 512px;
     border: 1px solid rgba(gray, 0.1);
 }
+
+.options {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 200px;
+    background-color: grey;
+    padding: 20px;
+
+    &-title {
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        font-size: 12px;
+    }
+}
