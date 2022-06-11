@@ -17,7 +17,7 @@ const Viewer = (props: ViewerProps) => {
     options,
   } = props;
 
-  const {clientSize, mountingPoint} = useClientSize();
+  const {clientSize, mountingPoint, threeRoot} = useClientSize();
   const [isLoading, setIsLoading] = useState(false);
   const classes = useClasses(className);
 
@@ -40,7 +40,7 @@ const Viewer = (props: ViewerProps) => {
       onSceneReady,
       options,
       setIsLoading,
-      threeRoot: mountingPoint.current,
+      threeRoot,
     }}>
       <div className={classes}>
         {content}

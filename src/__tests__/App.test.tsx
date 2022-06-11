@@ -32,7 +32,7 @@ jest.mock('../components/TinyViewer/hooks/useClientSize', () => () => ({
 test('Should render the App and wait until object-mounted marker will be visible', async() => {
   render(<App />);
 
-  const loader = screen.getByText('Loading...');
+  const loader = screen.getByText('Preparing scene...');
   await waitForElementToBeRemoved(loader);
 
   await waitFor(async() => {

@@ -1,35 +1,35 @@
-import {useCallback, useEffect, useRef, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
+import useCallbackRef from './useCallbackRef';
 
 const useClientSize = () => {
-  const mountingPoint = useRef<HTMLDivElement>(null);
-  const rootNode = mountingPoint.current;
+  const [threeRoot, mountingPoint] = useCallbackRef();
   const [height, setHeight] = useState<number>(1);
   const [width, setWidth] = useState<number>(1);
 
   const [isMounted, setIsMounted] = useState(false);
 
   const handleResize = useCallback(() => {
-    if (rootNode) {
-      setWidth(rootNode.offsetWidth);
-      setHeight(rootNode.offsetHeight);
+    if (threeRoot) {
+      setWidth(threeRoot.offsetWidth);
+      setHeight(threeRoot.offsetHeight);
     }
-  }, [rootNode]);
+  }, [threeRoot]);
 
   useEffect(function onMountingPointReady() {
-    if (mountingPoint.current) {
+    if (threeRoot) {
       setIsMounted(true);
     }
-  }, [mountingPoint]);
+  }, [threeRoot]);
 
   useEffect(function runSizeObserver() {
     const observer = new ResizeObserver(handleResize);
-    if (isMounted && rootNode) {
-      observer.observe(rootNode);
+    if (isMounted && threeRoot) {
+      observer.observe(threeRoot);
     }
     return () => observer.disconnect();
-  }, [rootNode, handleResize, isMounted]);
+  }, [threeRoot, handleResize, isMounted]);
 
-  return {clientSize: {clientHeight: height, clientWidth: width}, mountingPoint};
+  return {clientSize: {clientHeight: height, clientWidth: width}, mountingPoint, threeRoot};
 }
 
 export default useClientSize;

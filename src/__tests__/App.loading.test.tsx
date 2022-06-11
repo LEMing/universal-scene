@@ -1,4 +1,3 @@
-jest.mock('../components/TinyViewer/hooks/UseObject3DResolver', () => () => true);
 import React from 'react';
 import {render, screen, waitFor} from '@testing-library/react';
 import App from '../App';
@@ -33,7 +32,7 @@ test('Should render the App and find preloader', async() => {
   });
 
   await waitFor(() => {
-    const loader = screen.getByText('Loading...');
+    const loader = screen.getByText('Preparing scene...');
     expect(loader).toBeInTheDocument();
   });
 

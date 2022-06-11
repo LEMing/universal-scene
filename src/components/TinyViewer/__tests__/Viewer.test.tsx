@@ -9,7 +9,7 @@ describe('Viewer component', () => {
     render(<Viewer />);
 
     await waitFor(() => {
-      const loader = screen.getByText('Loading...');
+      const loader = screen.getByText('Preparing scene...');
       expect(loader).toBeInTheDocument();
     });
   });
