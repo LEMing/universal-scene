@@ -1,10 +1,11 @@
 .viewer-wrapper-container {
-    width: 512px;
-    height: 512px;
+    width: 100vw;
+    height: 100vh;
     border: 1px solid rgba(gray, 0.1);
 }
 
 .options {
+    z-index: 2;
     position: absolute;
     right: 0;
     top: 0;
@@ -12,12 +13,27 @@
     flex-direction: column;
     justify-content: start;
     width: 200px;
-    background-color: grey;
+    background-color: black;
+    color: slategray;
     padding: 20px;
+    font-size: 12px;
 
     &-title {
         margin-bottom: 10px;
         text-transform: uppercase;
         font-size: 12px;
+        font-weight: bold;
+    }
+
+    &-subtitle {
+        margin: 20px 0 10px 0;
+        text-transform: uppercase;
+    }
+
+    &-component {
+        height: 32px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 }

@@ -19,9 +19,9 @@ const Checkbox = ({data, path, label, onUpdate}: CheckboxProps) => {
 
   useUpdateData({newValue: checked, path, onUpdate, data});
 
-  return <div>
-    <input onChange={onChange} id={label} type="checkbox" name={label} checked={checked}/>
+  return <div className="options-component">
     <label htmlFor={label}>{label}</label>
+    <input onChange={onChange} id={label} type="checkbox" name={label} checked={checked}/>
   </div>
 }
 

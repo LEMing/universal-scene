@@ -1,4 +1,4 @@
-import {useContext} from 'react';
+import {useContext, useMemo} from 'react';
 import {envHooks} from '../../environment';
 import {ClientAreaProps, ThreeEnvironment} from '../../types';
 import * as THREE from 'three';
@@ -8,12 +8,16 @@ import useClientSizeUpdate from './useClientSizeUpdate';
 
 const useThreeEnvironment = (clientSize: ClientAreaProps): ThreeEnvironment => {
   const {options} = useContext(ViewerContext);
-  const {environment: {sceneOptions: {envMapUrl, sceneColor, fog}}} = options;
-  const sceneProps = {
-    fog,
-    background: sceneColor,
-    envMapUrl: envMapUrl
-  };
+
+  const sceneProps = useMemo(() => {
+    const {environment: {sceneOptions: {envMapUrl, sceneColor, fog}}} = options;
+    return ({
+      fog,
+      background: sceneColor,
+      envMapUrl: envMapUrl
+    })
+  }, [options]);
+
   const scene = envHooks.useScene(sceneProps);
   const camera = envHooks.useCamera() as THREE.PerspectiveCamera;
   const renderer = envHooks.useRenderer();

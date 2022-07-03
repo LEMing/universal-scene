@@ -8,6 +8,7 @@ import Selector from './components/Selector';
 import {CAR_MODELS} from './config';
 import './ViewerWrapper.scss';
 import {DEFAULT_VIEWER_OPTIONS} from "../TinyViewer/constants";
+import ColorInput from "./components/ColorInput";
 
 const ViewerWrapper = () => {
   const [scene, setScene] = useState<THREE.Scene | null>(null);
@@ -44,14 +45,33 @@ const ViewerWrapper = () => {
       <div className="options">
         <div className="options-title">Options</div>
         <Selector handleSelect={handleSelect} data={CAR_MODELS}/>
-        <Checkbox onUpdate={setOptions} data={options} path={'addDefaultHelpers'} label="Default helper"/>
-        <Checkbox onUpdate={setOptions} data={options} path={'addDefaultLight'} label="Default light"/>
+        <Checkbox onUpdate={setOptions} data={options} path={'addDefaultHelpers'} label="Default helper:"/>
+        <Checkbox onUpdate={setOptions} data={options} path={'addDefaultLight'} label="Default light:"/>
+        <div className="options-subtitle">Light options</div>
+        <ColorInput onUpdate={setOptions} data={options} path={'environment.lightOptions.skyColor'} label="Sky Color:"/>
+        <ColorInput onUpdate={setOptions} data={options} path={'environment.lightOptions.groundColor'} label="Ground Color:"/>
         <NumberInput
             onUpdate={setOptions}
             data={options}
             path={'environment.lightOptions.lightIntensity'}
-            label="Light intensity"
+            label="Light intensity:"
             numberProps={{min: 0, max: 1, step: 0.1}}
+        />
+        <div className="options-subtitle">Scene options</div>
+        <ColorInput onUpdate={setOptions} data={options} path={'environment.sceneOptions.fog.color'} label="Fog Color:"/>
+        <NumberInput
+            onUpdate={setOptions}
+            data={options}
+            path={'environment.sceneOptions.fog.far'}
+            label="Fog far:"
+            numberProps={{min: 0, max: 100000, step: 10}}
+        />
+        <NumberInput
+            onUpdate={setOptions}
+            data={options}
+            path={'environment.sceneOptions.fog.near'}
+            label="Fog near:"
+            numberProps={{min: 0, max: 100000, step: 10}}
         />
       </div>
       <div className="viewer-wrapper-container">
