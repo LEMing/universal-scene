@@ -3,6 +3,7 @@ import Viewer from '../TinyViewer';
 import * as THREE from 'three';
 import {createBox, loadGLB} from '../utils';
 import Checkbox from './components/Checkbox';
+import NumberInput from './components/NumberInput';
 import Selector from './components/Selector';
 import {CAR_MODELS} from './config';
 import './ViewerWrapper.scss';
@@ -45,6 +46,7 @@ const ViewerWrapper = () => {
         <Selector handleSelect={handleSelect} data={CAR_MODELS}/>
         <Checkbox onUpdate={setOptions} data={options} path={'addDefaultHelpers'} label="Default helper"/>
         <Checkbox onUpdate={setOptions} data={options} path={'addDefaultLight'} label="Default light"/>
+        <NumberInput onUpdate={setOptions} data={options} path={'addDefaultLight'} label="Default light"/>
       </div>
       <div className="viewer-wrapper-container">
         <Viewer animationRunner={animationRunner} dispatchers={{setScene}} object3D={object3D} options={options}/>
