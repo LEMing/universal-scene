@@ -46,7 +46,13 @@ const ViewerWrapper = () => {
         <Selector handleSelect={handleSelect} data={CAR_MODELS}/>
         <Checkbox onUpdate={setOptions} data={options} path={'addDefaultHelpers'} label="Default helper"/>
         <Checkbox onUpdate={setOptions} data={options} path={'addDefaultLight'} label="Default light"/>
-        <NumberInput onUpdate={setOptions} data={options} path={'addDefaultLight'} label="Default light"/>
+        <NumberInput
+            onUpdate={setOptions}
+            data={options}
+            path={'environment.lightOptions.lightIntensity'}
+            label="Light intensity"
+            numberProps={{min: 0, max: 1, step: 0.1}}
+        />
       </div>
       <div className="viewer-wrapper-container">
         <Viewer animationRunner={animationRunner} dispatchers={{setScene}} object3D={object3D} options={options}/>

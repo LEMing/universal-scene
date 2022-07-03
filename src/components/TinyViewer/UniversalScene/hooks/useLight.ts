@@ -5,19 +5,18 @@ import {UseLight} from './types';
 import {ViewerOptions} from '../../types';
 import {getNames, removeObjectsByName} from "./utils";
 
-const useLight = (scene: THREE.Scene, props: ViewerOptions) => {
-  const {addDefaultLight} = props;
+const useLight = (scene: THREE.Scene, options: ViewerOptions) => {
   const [lightNamesInScene, setLightNamesInScene] = useState<string[]>([]);
-  const {environment} = props;
 
   const lightProps: UseLight = useMemo(() => {
+    const {environment, addDefaultLight} = options;
     return {
       addDefaultLight,
       groundColor: environment?.lightOptions.groundColor,
       skyColor: environment?.lightOptions.skyColor,
       intensity: environment?.lightOptions.lightIntensity
     }
-  }, [environment, addDefaultLight]) ;
+  }, [options]) ;
 
   useEffect(function updateLight() {
     if (lightProps.addDefaultLight) {

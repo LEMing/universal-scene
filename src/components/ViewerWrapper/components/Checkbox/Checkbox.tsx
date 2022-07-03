@@ -1,7 +1,7 @@
-import React, {Dispatch, useCallback, useEffect, useState} from 'react';
+import React, {Dispatch, useCallback, useState} from 'react';
 import {ViewerOptions} from '../../../TinyViewer/types';
 import get from 'lodash/get';
-import set from 'lodash/set';
+import useUpdateData from "../commonHooks/useUpdateData";
 
 type CheckboxProps = {
   label: string,
@@ -17,11 +17,7 @@ const Checkbox = ({data, path, label, onUpdate}: CheckboxProps) => {
     setChecked(!checked);
   }, [checked]);
 
-  useEffect(function onDataUpdate() {
-    const _data = {...data};
-    set(_data, path, checked);
-    onUpdate(_data);
-  }, [checked])
+  useUpdateData({newValue: checked, path, onUpdate, data});
 
   return <div>
     <input onChange={onChange} id={label} type="checkbox" name={label} checked={checked}/>

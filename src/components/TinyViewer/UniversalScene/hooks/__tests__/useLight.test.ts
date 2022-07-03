@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import {DEFAULT_LIGHT_OPTIONS, DEFAULT_SCENE_OPTIONS} from '../../../constants';
+import {DEFAULT_SCENE_OPTIONS, DEFAULT_VIEWER_OPTIONS} from '../../../constants';
 import {createScene} from '../../../environment';
 import useLight from '../useLight';
 
@@ -14,7 +14,8 @@ describe('Should test useLight hook', () => {
     const scene = createScene(DEFAULT_SCENE_OPTIONS);
     const addLight = true;
     const numberOfChildrenBefore = scene.children.length;
-    renderHook(() => useLight(scene, {...DEFAULT_LIGHT_OPTIONS, addDefaultLight: addLight}));
+    const options = {...DEFAULT_VIEWER_OPTIONS, addDefaultLight: addLight};
+    renderHook(() => useLight(scene, options));
     expect(scene.children.length).toEqual(numberOfChildrenBefore + 2);
   });
 
@@ -22,7 +23,8 @@ describe('Should test useLight hook', () => {
     const scene = createScene(DEFAULT_SCENE_OPTIONS);
     const addLight = false;
     const numberOfChildrenBefore = scene.children.length;
-    renderHook(() => useLight(scene, {...DEFAULT_LIGHT_OPTIONS, addDefaultLight: addLight}));
+    const options = {...DEFAULT_VIEWER_OPTIONS, addDefaultLight: addLight};
+    renderHook(() => useLight(scene, options));
     expect(scene.children.length).toEqual(numberOfChildrenBefore);
   });
 
