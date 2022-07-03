@@ -73,6 +73,7 @@ const ViewerWrapper = () => {
             label="Fog near:"
             numberProps={{min: 0, max: 100000, step: 10}}
         />
+        <ColorInput onUpdate={setOptions} data={options} path={'environment.sceneOptions.sceneColor'} label="Scene Color:"/>
       </div>
       <div className="viewer-wrapper-container">
         <Viewer animationRunner={animationRunner} dispatchers={{setScene}} object3D={object3D} options={options}/>
