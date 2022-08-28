@@ -1,2 +1,2 @@
-export {createBox} from './factories';
+export {createBox} from './builders';
 export {loadGLB} from './loaders';
