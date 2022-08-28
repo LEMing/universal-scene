@@ -76,6 +76,9 @@ const ViewerWrapper = () => {
       <div className="viewer-wrapper-container">
         <Viewer animationRunner={animationRunner} dispatchers={{setScene}} object3D={object3D} options={options}/>
       </div>
+      <div className="viewer-wrapper-container">
+        <Viewer/>
+      </div>
     </div>
   )
 

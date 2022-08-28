@@ -2,11 +2,12 @@ import React from 'react';
 import Spinner from '../Spinner';
 
 import './Preloader.scss';
+import Label from "../Label";
 
 const Preloader = ({msg} : {msg: string}) => {
   return <div className="Preloader-wrapper">
     <Spinner/>
-    <p className="Preloader-label">{msg}</p>
+    <Label>{msg}</Label>
   </div>;
 }
 

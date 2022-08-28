@@ -15,6 +15,7 @@ import {
 import ViewerContext from '../ViewerContext';
 
 import './UniversalScene.scss';
+import ErrorMessage from "../components/ErrorMessage";
 
 const UniversalScene = () => {
   const {
@@ -45,6 +46,13 @@ const UniversalScene = () => {
     'universal-scene': true,
     'fog': isObjectAdded,
   });
+
+  if (!object3D) {
+    return <ErrorMessage
+        msg={'Initialisation error'}
+        debugDetails={'Object3D is not provided.'}
+    />
+  }
 
   return (
     <div data-testid={`universal-scene is-ready-${isObjectAdded}`} className={sceneClasses}>
