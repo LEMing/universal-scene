@@ -1,7 +1,6 @@
 import React, {useCallback, useMemo, useState} from 'react';
 import Viewer from '../TinyViewer';
 import * as THREE from 'three';
-import {createBox, loadGLB} from '../utils';
 import Checkbox from './components/Checkbox';
 import NumberInput from './components/NumberInput';
 import Selector from './components/Selector';
@@ -9,23 +8,21 @@ import {CAR_MODELS} from './config';
 import './ViewerWrapper.scss';
 import {DEFAULT_VIEWER_OPTIONS} from "../TinyViewer/constants";
 import ColorInput from "./components/ColorInput";
+import CarsFactory from "../../models/CarsFactory";
 
 const ViewerWrapper = () => {
   const [scene, setScene] = useState<THREE.Scene | null>(null);
-  const [path, setPath] = useState(CAR_MODELS[0].value);
+  const [label, setLabel] = useState(CAR_MODELS[0].label);
   const [options, setOptions] = useState(DEFAULT_VIEWER_OPTIONS);
 
   const object3D = useMemo(async () => {
-    const group = new THREE.Group();
-    try {
-      const car = await loadGLB(path);
-      car.name = 'object-label';
-      group.add(car);
-    } catch (error) {
-      group.add(createBox({name: 'object-name'}));
+    const OPTIONS = {
+      'Datsun': new CarsFactory().getDatsun(),
+      'Porsche': new CarsFactory().getPorsche(),
+      'Truck': new CarsFactory().getTruck(),
     }
-    return group;
-  }, [path]);
+    return OPTIONS[label];
+  }, [label]);
 
   const animationRunner = useCallback(() => {
     if (scene) {
@@ -37,7 +34,7 @@ const ViewerWrapper = () => {
   }, [scene]);
 
   const handleSelect = useCallback((event) => {
-    setPath(event.target.value);
+    setLabel(event.target.value);
   }, []);
 
   return (

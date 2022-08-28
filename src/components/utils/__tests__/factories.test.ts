@@ -1,6 +1,6 @@
-import {createBox} from '../factories';
+import {createBox} from '../builders';
 
-describe('Factories utils', function () {
+describe('Builder utils', function () {
   test('Should create a cube 3d object', () => {
     const cube = createBox({name: 'test-cube'});
     expect(cube.name).toEqual('test-cube');
