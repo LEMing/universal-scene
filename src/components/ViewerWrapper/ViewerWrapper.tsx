@@ -4,7 +4,7 @@ import * as THREE from 'three';
 import Checkbox from './components/Checkbox';
 import NumberInput from './components/NumberInput';
 import Selector from './components/Selector';
-import {CAR_MODELS} from './config';
+import {SELECTOR_CONFIG} from './config';
 import './ViewerWrapper.scss';
 import {DEFAULT_VIEWER_OPTIONS} from "../TinyViewer/constants";
 import ColorInput from "./components/ColorInput";
@@ -12,7 +12,7 @@ import CarsFactory from "../../models/CarsFactory";
 
 const ViewerWrapper = () => {
   const [scene, setScene] = useState<THREE.Scene | null>(null);
-  const [label, setLabel] = useState(CAR_MODELS[0].label);
+  const [label, setLabel] = useState(SELECTOR_CONFIG[0].label);
   const [options, setOptions] = useState(DEFAULT_VIEWER_OPTIONS);
 
   const object3D = useMemo(async () => {
@@ -34,14 +34,15 @@ const ViewerWrapper = () => {
   }, [scene]);
 
   const handleSelect = useCallback((event) => {
+    console.log(event.target.value)
     setLabel(event.target.value);
-  }, []);
+  }, [setLabel]);
 
   return (
     <div className="viewer-with-options">
       <div className="options">
         <div className="options-title">Options</div>
-        <Selector handleSelect={handleSelect} data={CAR_MODELS}/>
+        <Selector handleSelect={handleSelect} data={SELECTOR_CONFIG}/>
         <Checkbox onUpdate={setOptions} data={options} path={'addDefaultHelpers'} label="Default helper:"/>
         <Checkbox onUpdate={setOptions} data={options} path={'addDefaultLight'} label="Default light:"/>
         <div className="options-subtitle">Light options</div>
