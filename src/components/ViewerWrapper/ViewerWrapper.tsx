@@ -1,14 +1,15 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import Viewer from '../TinyViewer';
+import {Viewer} from '../TinyViewer';
 import * as THREE from 'three';
 import Checkbox from './components/Checkbox';
 import NumberInput from './components/NumberInput';
 import Selector from './components/Selector';
 import {SELECTOR_CONFIG} from './config';
+
+import {DEFAULT_VIEWER_OPTIONS} from '../TinyViewer/constants';
+import ColorInput from './components/ColorInput';
+import CarsFactory from '../../models/CarsFactory';
 import './ViewerWrapper.scss';
-import {DEFAULT_VIEWER_OPTIONS} from "../TinyViewer/constants";
-import ColorInput from "./components/ColorInput";
-import CarsFactory from "../../models/CarsFactory";
 
 const ViewerWrapper = () => {
   const [scene, setScene] = useState<THREE.Scene | null>(null);
@@ -75,6 +76,9 @@ const ViewerWrapper = () => {
       </div>
       <div className="viewer-wrapper-container">
         <Viewer animationRunner={animationRunner} dispatchers={{setScene}} object3D={object3D} options={options}/>
+      </div>
+      <div className="viewer-wrapper-container">
+        <Viewer/>
       </div>
     </div>
   )
