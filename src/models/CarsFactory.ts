@@ -2,10 +2,12 @@ import {CAR_MODELS} from "../components/ViewerWrapper/config";
 import {SelectorRow} from "../components/ViewerWrapper/types";
 import * as THREE from "three";
 import {createBox, loadGLB} from "../components/utils";
+import WorldFactory from './WorldFactory';
 
-class CarsFactory {
+class CarsFactory extends WorldFactory {
     private dictionary: SelectorRow[];
     constructor() {
+        super();
         this.dictionary = CAR_MODELS;
     }
     public async getModelByLabel(label: string) {
@@ -36,22 +38,11 @@ class CarsFactory {
     }
 
     private handleError(error, path?: string) {
-        console.error('Cannot load glb model');
-        console.debug({error, path});
+        if (process.env.NODE_ENV !== 'test') {
+            console.error('Cannot load glb model');
+            console.debug({error, path});
+        }
     }
-
-    public async getDatsun() {
-        return this.getModelByLabel('Datsun');
-    }
-
-    public async getPorsche() {
-        return this.getModelByLabel('Porsche');
-    }
-
-    public async getTruck() {
-        return this.getModelByLabel('Truck');
-    }
-
 }
 
 export default CarsFactory;

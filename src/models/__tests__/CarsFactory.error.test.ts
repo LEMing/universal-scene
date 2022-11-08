@@ -9,7 +9,7 @@ jest.mock('../../components/utils/loaders', () => ({
 describe('Check the error cases of the class', () => {
     it('should find the error box in the model', async () => {
         const factory = new CarsFactory();
-        const porscheGroup = await factory.getPorsche();
+        const porscheGroup = await factory.getModelByLabel('Porsche');
         const errorBox = porscheGroup.getObjectByName('Error box')
         expect(errorBox).toBeDefined();
     });

@@ -1,15 +1,22 @@
 import {render, screen, waitFor} from '@testing-library/react';
 import React from 'react';
+import * as THREE from 'three';
 import {createBox} from '../../utils';
 import Viewer from '../Viewer';
 import '@testing-library/jest-dom';
 
+const mockObject3D = new THREE.Object3D();
+jest.mock('../../utils', () => ({
+  ...jest.requireActual('../../utils'),
+  loadGLB: () => Promise.resolve(mockObject3D),
+}));
+
 describe('Viewer component', () => {
-  test('Should find "Loading..." message', async () => {
+  test('Should find "Initialisation error" message', async () => {
     render(<Viewer />);
 
     await waitFor(() => {
-      const loader = screen.getByText('Preparing scene...');
+      const loader = screen.getByText('Initialisation error');
       expect(loader).toBeInTheDocument();
     });
   });

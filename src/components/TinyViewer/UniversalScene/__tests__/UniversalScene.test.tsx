@@ -1,10 +1,19 @@
 import React from 'react';
 import {render, screen, waitFor} from '@testing-library/react';
 import '@testing-library/jest-dom';
+import * as THREE from 'three';
 import mockRenderer from '../../__mocks__/mockRenderer';
 import mockViewerContext from '../../__mocks__/mockViewerContext';
 import UniversalScene from '../UniversalScene';
 import ViewerContext from '../../ViewerContext';
+
+const mockObject3D = new THREE.Object3D();
+jest.mock('../../../utils', () => ({
+  ...jest.requireActual('../../../utils'),
+  loadGLB: () => {
+    return Promise.resolve(mockObject3D)
+  },
+}));
 
 jest.mock('three/examples/jsm/loaders/RGBELoader', () => ({
   RGBELoader: jest.fn().mockImplementation(() => {
@@ -26,7 +35,7 @@ jest.mock('../../environment/environment', () => ({
 
 jest.mock('../hooks/useInitMethod', () => () => jest.fn());
 
-test('Should render UniversalScene', async() => {
+test('Should render an Initialisation error in UniversalScene', async() => {
   render(
     <ViewerContext.Provider value={mockViewerContext}>
       <UniversalScene/>
@@ -34,7 +43,7 @@ test('Should render UniversalScene', async() => {
   );
 
   await waitFor(() => {
-    const universalScene = screen.getByTestId('universal-scene is-ready-false');
+    const universalScene = screen.getByText('Initialisation error');
     expect(universalScene).toBeInTheDocument();
   });
 });

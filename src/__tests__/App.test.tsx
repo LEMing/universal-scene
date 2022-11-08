@@ -3,6 +3,7 @@ import {render, screen, waitFor, waitForElementToBeRemoved} from '@testing-libra
 import mockRenderer from '../components/TinyViewer/__mocks__/mockRenderer';
 import App from '../App';
 import '@testing-library/jest-dom';
+import * as THREE from 'three';
 
 global.ResizeObserver = jest.fn().mockImplementation(() => ({
   observe: jest.fn(),
@@ -22,6 +23,12 @@ jest.mock('../components/TinyViewer/environment/environment', () => ({
     createControls: () => ({update: jest.fn()}),
   }),
 );
+const mockObject3D = new THREE.Object3D();
+jest.mock('../components/utils/loaders', () => ({
+  loadGLB: () => {
+    return Promise.resolve(mockObject3D)
+  },
+}));
 
 const mockDiv = document.createElement('div');
 jest.mock('../components/TinyViewer/hooks/useClientSize', () => () => ({

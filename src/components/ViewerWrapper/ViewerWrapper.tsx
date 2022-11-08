@@ -17,12 +17,7 @@ const ViewerWrapper = () => {
   const [options, setOptions] = useState(DEFAULT_VIEWER_OPTIONS);
 
   const object3D = useMemo(async () => {
-    const OPTIONS = {
-      'Datsun': new CarsFactory().getDatsun(),
-      'Porsche': new CarsFactory().getPorsche(),
-      'Truck': new CarsFactory().getTruck(),
-    }
-    return OPTIONS[label];
+    return new CarsFactory().getModelByLabel(label);
   }, [label]);
 
   const animationRunner = useCallback(() => {
