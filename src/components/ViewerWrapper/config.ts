@@ -15,8 +15,8 @@ export const CAR_MODELS: SelectorRow[] = [
 ]
 
 export const SELECTOR_CONFIG: SelectorRow[] = [
+  {value: 'Galaxy', label: 'Galaxy'},
   {value: 'Datsun', label: 'Datsun'},
   {value: 'Porsche', label: 'Porsche'},
   {value: 'Truck', label: 'Truck'},
-  {value: 'Galaxy', label: 'Galaxy'},
 ]

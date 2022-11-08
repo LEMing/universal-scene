@@ -1,5 +1,8 @@
 import React, {useCallback, useMemo, useState} from 'react';
+import runGalaxyAnimation from '../../models/Galaxy/getGalaxyAnimation';
+import Planet from '../../models/Galaxy/Planet';
 import ModelFactory from '../../models/ModelFactory';
+import StarsFactory from '../../models/StarsFactory';
 import {Viewer} from '../TinyViewer';
 import * as THREE from 'three';
 import Checkbox from './components/Checkbox';
@@ -15,19 +18,21 @@ const ViewerWrapper = () => {
   const [scene, setScene] = useState<THREE.Scene | null>(null);
   const [label, setLabel] = useState(SELECTOR_CONFIG[0].label);
   const [options, setOptions] = useState(DEFAULT_VIEWER_OPTIONS);
+  const [controller, setController] = useState<Planet[]>();
 
   const object3D: Promise<THREE.Object3D> | undefined = useMemo(() => {
-    return new ModelFactory().getModelByLabel(label);
+    const factory = new ModelFactory().getCurrentFactory(label);
+    if (factory instanceof StarsFactory) {
+      setController(factory.galaxy)
+    }
+    return factory?.getModelByLabel(label);
   }, [label]);
 
   const animationRunner = useCallback(() => {
-    if (scene) {
-      const object = scene.getObjectByName('object-label');
-      if (object) {
-         // object.rotateY(0.001);
-      }
+    if (label === 'Galaxy' && scene && controller) {
+      runGalaxyAnimation(scene, controller);
     }
-  }, [scene]);
+  }, [scene, label, controller]);
 
   const handleSelect = useCallback((event) => {
     console.log(event.target.value)

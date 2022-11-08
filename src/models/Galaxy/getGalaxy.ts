@@ -1,10 +1,12 @@
+import Planet from './Planet';
 import * as THREE from 'three';
-import {createBox} from '../../components/utils';
 
 const getGalaxy = () => {
-  const galaxy = new THREE.Group();
-  const cube = createBox({size: new THREE.Vector3(10, 10, 10), name: 'Milky Way', color: 0xFF0000});
-  galaxy.add(cube);
+  const galaxy: Planet[] = [];
+  const planet = new Planet({radius: 1, angle: 0});
+  planet.spawnMoons(20)
+  planet.planets?.forEach(moon => moon.spawnMoons(THREE.MathUtils.randInt(2, 20)))
+  galaxy.push(planet);
   return galaxy;
 }
 

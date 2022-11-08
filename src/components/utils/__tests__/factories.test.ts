@@ -1,8 +1,8 @@
-import {createBox} from '../builders';
+import {createBoxOrSphere} from '../builders';
 
 describe('Builder utils', function () {
   test('Should create a cube 3d object', () => {
-    const cube = createBox({name: 'test-cube'});
+    const cube = createBoxOrSphere({name: 'test-cube'});
     expect(cube.name).toEqual('test-cube');
   })
 });

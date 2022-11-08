@@ -1,6 +1,6 @@
 import {CAR_MODELS} from "../components/ViewerWrapper/config";
 import * as THREE from "three";
-import {createBox, loadGLB} from "../components/utils";
+import {createBoxOrSphere, loadGLB} from "../components/utils";
 import WorldFactory from './WorldFactory';
 
 class CarsFactory extends WorldFactory {
@@ -31,7 +31,7 @@ class CarsFactory extends WorldFactory {
             return car;
         } catch (error) {
             this.handleError(error, path);
-            return Promise.resolve(createBox({name: 'Error box'}));
+            return Promise.resolve(createBoxOrSphere({name: 'Error box'}));
         }
     }
 

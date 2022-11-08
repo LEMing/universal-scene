@@ -1,7 +1,7 @@
 import {renderHook, waitFor} from '@testing-library/react'
 import {DEFAULT_SCENE_OPTIONS} from '../../../constants';
 import {createScene} from '../../../environment';
-import {createBox} from '../../../../utils';
+import {createBoxOrSphere} from '../../../../utils';
 import useObject3D from '../useObject3D';
 jest.mock('three/examples/jsm/loaders/RGBELoader', () => ({
   RGBELoader: jest.fn().mockImplementation(() => {
@@ -13,7 +13,7 @@ describe('Should test useObject3D hook', () => {
   test('Should add a new object to the scene', () => {
     const scene = createScene(DEFAULT_SCENE_OPTIONS);
     const objectName = 'My Cube';
-    const myCube = createBox({name: objectName});
+    const myCube = createBoxOrSphere({name: objectName});
     renderHook(() => useObject3D(scene, myCube));
     waitFor(() => {
       const object3D = scene.getObjectByName(objectName);

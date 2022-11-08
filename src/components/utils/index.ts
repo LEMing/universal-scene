@@ -1,2 +1,2 @@
-export {createBox} from './builders';
+export {createBoxOrSphere} from './builders';
 export {loadGLB} from './loaders';
