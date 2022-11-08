@@ -1,11 +1,9 @@
 import {CAR_MODELS} from "../components/ViewerWrapper/config";
-import {SelectorRow} from "../components/ViewerWrapper/types";
 import * as THREE from "three";
 import {createBox, loadGLB} from "../components/utils";
 import WorldFactory from './WorldFactory';
 
 class CarsFactory extends WorldFactory {
-    private dictionary: SelectorRow[];
     constructor() {
         super();
         this.dictionary = CAR_MODELS;
@@ -23,7 +21,7 @@ class CarsFactory extends WorldFactory {
     }
 
     private getModelPathByLabel(label: string) {
-        return this.dictionary.find(item => item.label === label)?.value;
+        return this.dictionary?.find(item => item.label === label)?.value;
     }
 
     private async loadModel(path: string): Promise<THREE.Object3D> {

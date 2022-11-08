@@ -1,4 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
+import ModelFactory from '../../models/ModelFactory';
 import {Viewer} from '../TinyViewer';
 import * as THREE from 'three';
 import Checkbox from './components/Checkbox';
@@ -8,7 +9,6 @@ import {SELECTOR_CONFIG} from './config';
 
 import {DEFAULT_VIEWER_OPTIONS} from '../TinyViewer/constants';
 import ColorInput from './components/ColorInput';
-import CarsFactory from '../../models/CarsFactory';
 import './ViewerWrapper.scss';
 
 const ViewerWrapper = () => {
@@ -16,8 +16,8 @@ const ViewerWrapper = () => {
   const [label, setLabel] = useState(SELECTOR_CONFIG[0].label);
   const [options, setOptions] = useState(DEFAULT_VIEWER_OPTIONS);
 
-  const object3D = useMemo(async () => {
-    return new CarsFactory().getModelByLabel(label);
+  const object3D: Promise<THREE.Object3D> | undefined = useMemo(() => {
+    return new ModelFactory().getModelByLabel(label);
   }, [label]);
 
   const animationRunner = useCallback(() => {
@@ -71,9 +71,6 @@ const ViewerWrapper = () => {
       </div>
       <div className="viewer-wrapper-container">
         <Viewer animationRunner={animationRunner} dispatchers={{setScene}} object3D={object3D} options={options}/>
-      </div>
-      <div className="viewer-wrapper-container">
-        <Viewer/>
       </div>
     </div>
   )
