@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import runGalaxyAnimation from '../../models/Galaxy/getGalaxyAnimation';
 import Planet from '../../models/Galaxy/Planet';
 import ModelFactory from '../../models/ModelFactory';
-import StarsFactory from '../../models/StarsFactory';
+import StarsFactory from '../../models/Galaxy/StarsFactory';
 import {Viewer} from '../TinyViewer';
 import * as THREE from 'three';
 import Checkbox from './components/Checkbox';

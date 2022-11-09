@@ -1,17 +1,10 @@
 import * as THREE from 'three';
 import {createBoxOrSphere} from '../../components/utils';
 import range from 'lodash/range';
+import {IPlanet} from './types';
 import {getRandomColor} from './utils';
 import earthMap4k from './textures/8081_earthmap4k.jpg';
 import moonMap4k from './textures/moonmap4k.jpg';
-
-interface IPlanet {
-  radius: number;
-  angle?: number;
-  distance?: number;
-  color?: number;
-  type: 'Moon' | 'Earth';
-}
 
 class Planet {
   protected readonly radius: number;

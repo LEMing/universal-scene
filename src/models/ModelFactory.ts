@@ -1,11 +1,12 @@
 import CarsFactory from './CarsFactory';
-import StarsFactory from './StarsFactory';
+import StarsFactory from './Galaxy/StarsFactory';
+import GardenFactory from './Garden/GardenFactory';
 import WorldFactory from './WorldFactory';
 import find from 'lodash/find';
 
 class ModelFactory extends WorldFactory {
 
-  private factories: WorldFactory[] = [new CarsFactory(), new StarsFactory()]
+  private factories: WorldFactory[] = [new CarsFactory(), new StarsFactory(), new GardenFactory()]
   private _currentFactory?: WorldFactory;
 
   selectFactory(label: string) {

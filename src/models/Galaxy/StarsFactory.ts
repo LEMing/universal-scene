@@ -1,12 +1,13 @@
-import {SelectorRow} from '../components/ViewerWrapper/types';
-import getGalaxy from './Galaxy/getGalaxy';
-import Planet from './Galaxy/Planet';
-import WorldFactory from './WorldFactory';
+import {SelectorRow} from '../../components/ViewerWrapper/types';
+import getGalaxy from './getGalaxy';
+import Planet from './Planet';
+import WorldFactory from '../WorldFactory';
 import * as THREE from 'three';
 
 export const STARS: SelectorRow[] = [
   {value: 'Galaxy', label: 'Galaxy'},
 ]
+
 class StarsFactory extends WorldFactory {
   public galaxy: Planet[];
   constructor() {
