@@ -1,19 +1,35 @@
+import Cables from './Cables';
 import {IPlant} from './types';
 import * as THREE from 'three';
+import grassTexture from './textures/TexturesCom_Grass0126_1_seamless_S_128.jpg';
+import {getCablePaths} from './utils';
 
 class Plant {
-  private readonly height: number;
-  constructor({height}: IPlant) {
-    this.height = height;
+  public readonly group: THREE.Group;
+  private readonly a: THREE.Vector3;
+  private readonly b: THREE.Vector3;
+  constructor({a, b}: IPlant) {
+    this.a = a;
+    this.b = b;
+    this.group = new THREE.Group();
+  }
+  getTexture() {
+    return grassTexture;
+  }
+  pointA() {
+    return this.a;
+  }
+  pointB() {
+    return this.b;
+  }
+  get height() {
+    return this.a.distanceTo(this.b);
   }
   draw() {
-    const group = new THREE.Group();
-    const cylinderGeometry = new THREE.CylinderGeometry(0.1,0.067, this.height);
-    const material = new THREE.MeshPhysicalMaterial( {color: 0x00FF00});
-    const mesh = new THREE.Mesh(cylinderGeometry, material);
-    mesh.material = material;
-    group.add(mesh)
-    return group;
+    const curve = getCablePaths([this.pointA(), this.pointB()]);
+    const mesh = new Cables({curves: curve}).object3d;
+    this.group.add(mesh)
+    return this.group;
   }
 
 }

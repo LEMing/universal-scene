@@ -1,3 +1,6 @@
+import * as THREE from 'three';
+
 export interface IPlant {
-  height: number;
+  a: THREE.Vector3;
+  b: THREE.Vector3;
 }

@@ -1,9 +1,10 @@
+import LSystem from './LSystem';
 import Plant from './Plant';
 
 const getGarden = () => {
   const garden: Plant[] = [];
-  const plant = new Plant({height: 4});
-  garden.push(plant);
+  const plants = new LSystem().getPlants();
+  garden.push(...plants);
   return garden;
 }
 
