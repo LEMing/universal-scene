@@ -26,7 +26,7 @@ class Planet {
     this.radius = radius;
     this.angle = angle || 0;
     this.distance = distance || 0;
-    this.orbitSpeed = THREE.MathUtils.randInt(1, 5) / 10;
+    this.orbitSpeed = THREE.MathUtils.randInt(1, 5) / 50;
     this.planetGroup = new THREE.Group();
     this.color = color || getRandomColor();
     this.type = type;
@@ -35,7 +35,7 @@ class Planet {
   spawnMoons(total: number) {
     const moonsColor = getRandomColor()
     this.planets = range(total).map(() => new Planet({
-      radius: this.radius / 4,
+      radius: this.radius / 3,
       color: moonsColor,
       type: 'Moon',
       distance: THREE.MathUtils.randInt(this.radius * 3, this.radius * 3),
