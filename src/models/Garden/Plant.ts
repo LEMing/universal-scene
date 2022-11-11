@@ -28,9 +28,10 @@ class Plant {
   }
   draw() {
     const curve = getCablePaths([this.pointA(), this.pointB()]);
-    const mesh = new Cables({curves: curve}).object3d;
+    const mesh = new Cables({curves: curve, }).object3d;
+    const jointRadius = 0.02;
     const end = createBoxOrSphere({
-      size: new THREE.Vector3(0.1, 0.1, 0.1),
+      size: new THREE.Vector3(jointRadius, jointRadius, jointRadius),
       name: 'end',
       color: 0xFF0000,
       type: 'sphere',
@@ -39,8 +40,8 @@ class Plant {
     const start = end.clone();
     start.position.copy(this.pointA())
     this.group.add(mesh)
-    // this.group.add(end)
-    // this.group.add(start)
+    this.group.add(end);
+    this.group.add(start)
     return this.group;
   }
 

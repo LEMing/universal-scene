@@ -13,9 +13,9 @@ interface ITubeParams {
 }
 
 const DEFAULT_OPTIONS = {
-  tubularSegments: 16,
-  radius: 0.01,
-  radiusSegments: 6,
+  tubularSegments: 1,
+  radius: 0.025,
+  radiusSegments: 3,
   color: 0x00FF00,
 };
 
