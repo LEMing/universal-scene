@@ -18,6 +18,7 @@ class LSystem {
   private readonly plants: DrawableObject[];
   private readonly rootPosition: THREE.Vector3;
   private readonly leavesPositions: THREE.Vector3[];
+  private readonly showLeaves: boolean;
   constructor({generations, position}: ILSystem) {
     this.rootPosition = position;
     this.axiom = 'X';
@@ -27,6 +28,7 @@ class LSystem {
     this.length = 0.25;
     this.plants = [];
     this.leavesPositions = [];
+    this.showLeaves = true;
     this.calculate();
   }
   rules() {
@@ -65,8 +67,10 @@ class LSystem {
     })
     this.length *= 0.5 * this.countOfGenerations;
     this.generatePlants();
-    this.calculateLeaves();
-    this.generateLeaves();
+    if (this.showLeaves) {
+      this.calculateLeaves();
+      this.generateLeaves();
+    }
     console.log("Generation " + this.countOfGenerations + ": " + this.sentence);
   }
   calculateLeaves() {
@@ -95,7 +99,7 @@ class LSystem {
         this.leavesPositions.push(forSurePlant.pointB());
       }
     });
-    console.log({leaves: this.leavesPositions})
+    console.log({leaves: this.leavesPositions});
   }
   generateLeaves() {
     this.leavesPositions.forEach(position => {
@@ -121,7 +125,9 @@ class LSystem {
           const y = currentPosition.y + this.length * Math.sin(alfaX);
           const z = currentPosition.z + this.length * Math.cos(alfaZ);
           const nextPoint = new THREE.Vector3(x, y, z);
-          const plant = new Plant({a: currentPosition.clone(), b: nextPoint});
+          const distanceToRoot = this.rootPosition.distanceTo(currentPosition);
+          const thickness = 1 / ((distanceToRoot * 0.1) + 0.5);
+          const plant = new Plant({a: currentPosition.clone(), b: nextPoint, thickness});
           currentPosition = nextPoint.clone();
           this.plants.push(plant);
           break;

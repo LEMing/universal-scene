@@ -13,7 +13,7 @@ class Leaf extends DrawableObject {
   }
   draw() {
     const leafObject3d = createBoxOrSphere({
-      size: new THREE.Vector3(1, 1, 1),
+      size: new THREE.Vector3(2, 2, 2),
       name: 'end',
       color: 0x00C12D,
       type: 'sphere',

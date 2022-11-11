@@ -13,9 +13,9 @@ interface ITubeParams {
 }
 
 const DEFAULT_OPTIONS = {
-  tubularSegments: 1,
+  tubularSegments: 32,
   radius: 0.25,
-  radiusSegments: 32,
+  radiusSegments: 64,
   color: 0xA46755,
 };
 
@@ -23,9 +23,9 @@ export default class Tube {
   private options: ITubeOptions;
   private readonly curve: THREE.QuadraticBezierCurve3;
 
-  constructor({options = DEFAULT_OPTIONS, curve}: ITubeParams) {
+  constructor({options, curve}: ITubeParams) {
     this.curve = curve;
-    this.options = options;
+    this.options = {...DEFAULT_OPTIONS, ...options};
   }
 
   private createGeometry() {
@@ -34,12 +34,17 @@ export default class Tube {
       this.options.tubularSegments,
       this.options.radius,
       this.options.radiusSegments,
-      false,
+      true,
     );
   }
 
   private createMaterial() {
-    return new THREE.MeshPhysicalMaterial({color: this.options.color});
+    return new THREE.MeshPhysicalMaterial({
+      color: this.options.color,
+      sheen: 0.1,
+      clearcoat: 0.5,
+      roughness: 0.5
+    });
   }
 
   createObject3D() {
