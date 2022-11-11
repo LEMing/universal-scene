@@ -1,86 +1,106 @@
 import range from 'lodash/range';
-import {Vector3} from 'three';
+import {MathUtils, Vector3} from 'three';
 import Plant from './Plant';
 import * as THREE from 'three';
 class LSystem {
-  private current: string;
+  private readonly axiom: string;
   private count: number;
+  private sentence: string;
+  private length: number;
   constructor() {
-    this.current = 'X';
+    this.axiom = 'F';
+    this.sentence = this.axiom;
     this.count = 0;
     this.calculate();
+    this.length = 1;
   }
-  getNext(count: number = 1) {
-    let next: string[] = [];
+  rules() {
+    return [
+      {
+        a: 'F',
+        b: 'FF+[+F-F-F]-[-F+F+F]'
+      },
+    ]
+  }
+  generateDNA(count: number = 1) {
     range(count).forEach(() => {
+      let nextSentence: string = '';
       // Look through the current String to replace according to L-System rules
-      for ( let i = 0; i < this.current.length; i++) {
-        const c = this.current[i];
-        switch (c) {
-          case 'F': {
-            // Draw a line
-            next.push('FX');
-            break;
+      for ( let i = 0; i < this.sentence.length; i++) {
+        const current = this.sentence[i];
+        let found = false;
+        this.rules().forEach(rule => {
+          if (current === rule.a) {
+            found = true;
+            nextSentence+= rule.b;
           }
-          case 'X': {
-            // Move forward
-            // next.push('F+[[X]-X]-F[-FX]+X');
-            next.push('F+[[X]-X]-F[-FX]+X');
-            break;
-          }
+        });
+        if (!found) {
+          nextSentence += current;
         }
       }
-      this.current = next.join('');
+      console.log(nextSentence)
+      this.sentence = nextSentence;
+      this.count++;
     })
-    return next.join('');
   }
   calculate() {
-    // The current String is now the next one
-    this.getNext(3);
-    // Print to message console
-    console.log("Generation " + this.count + ": " + this.current);
-    this.count++;
+    this.generateDNA(3);
+    console.log("Generation " + this.count + ": " + this.sentence);
   }
   getPlants() {
+    // this.sentence = 'FF+[+F-F-F]-[-F+F+F]';
     const plants: Plant[] = [];
-    let currentPosition = new Vector3();
-    let bCoordinate = new Vector3().copy(currentPosition.add(new THREE.Vector3(0, 1, 0)));
-    let savedPoint = currentPosition;
-
-    for ( let i = 0; i < this.current.length; i++) {
-      const c = this.current[i];
-      console.log({c})
+    let currentPosition: THREE.Vector3 = new Vector3();
+    let angle = 0;
+    let savedPoints: THREE.Vector3[] = [new THREE.Vector3()];
+    let savedAngles: number[] = [];
+    for ( let i = 0; i < this.sentence.length; i++) {
+      const c = this.sentence[i];
       switch (c) {
         case 'F': {
           // Draw a line
-          const plant = new Plant({a: currentPosition, b: bCoordinate});
+          const alfa = MathUtils.degToRad(90 - angle);
+          const x = currentPosition.x + this.length * Math.cos(alfa);
+          const y = currentPosition.y + this.length * Math.sin(alfa);
+          const z = 0;
+          const nextPoint = new THREE.Vector3(x, y, z);
+          const plant = new Plant({a: currentPosition.clone(), b: nextPoint});
+          currentPosition = nextPoint.clone();
           plants.push(plant);
-          currentPosition = bCoordinate;
-          bCoordinate = new Vector3().copy(currentPosition.add(new THREE.Vector3(0, 1, 0)));
-
           break;
         }
         case '+': {
           // Turn right
-          bCoordinate.applyEuler(new THREE.Euler(0, 0,THREE.MathUtils.degToRad(15)));
+          angle += 15;
           break;
         }
         case '-': {
           // Turn left
-          bCoordinate.applyEuler(new THREE.Euler(0, 0,THREE.MathUtils.degToRad(-15)));
+          angle -= 15;
           break;
         }
         case '[': {
-          savedPoint = currentPosition;
+          // Save position and angle
+          savedPoints.push(currentPosition.clone());
+          savedAngles.push(angle);
           break;
         }
         case ']': {
-          currentPosition = savedPoint;
+          // Load position and angle
+          const savedPoint = savedPoints.pop();
+          const savedAngle = savedAngles.pop();
+          if (savedPoint) {
+            currentPosition = savedPoint.clone();
+          }
+          if (savedAngle) {
+            angle = savedAngle;
+          }
           break;
         }
       }
     }
-    console.log({plants})
+    // console.log({plants})
     return plants;
   }
 }

@@ -27,7 +27,6 @@ export const getCablePaths = (points: THREE.Vector3[]) => {
     const curve = new Curve({startPoint, endPoint}).curve;
     cablePaths.push(curve);
   }
-  console.log({cablePaths})
   return cablePaths;
 };
 

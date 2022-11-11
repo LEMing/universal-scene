@@ -1,3 +1,4 @@
+import {createBoxOrSphere} from '../../components/utils';
 import Cables from './Cables';
 import {IPlant} from './types';
 import * as THREE from 'three';
@@ -28,7 +29,18 @@ class Plant {
   draw() {
     const curve = getCablePaths([this.pointA(), this.pointB()]);
     const mesh = new Cables({curves: curve}).object3d;
+    const end = createBoxOrSphere({
+      size: new THREE.Vector3(0.1, 0.1, 0.1),
+      name: 'end',
+      color: 0xFF0000,
+      type: 'sphere',
+    })
+    end.position.copy(this.pointB());
+    const start = end.clone();
+    start.position.copy(this.pointA())
     this.group.add(mesh)
+    this.group.add(end)
+    this.group.add(start)
     return this.group;
   }
 
