@@ -77,15 +77,15 @@ class LSystem {
     for (let i = 0; i < this.plants.length; i++) {
       const plant = this.plants[i] as Plant;
       for (let j = 0; j < this.plants.length; j++) {
-        if (plant !== this.plants[j]) {
+        if (i !== j) {
           const anotherPlant = this.plants[j] as Plant;
-          const isZeroDistanceAA = plant.pointA().distanceTo(anotherPlant.pointA()) === 0;
-          const isZeroDistanceAB = plant.pointA().distanceTo(anotherPlant.pointB()) === 0;
+          const isZeroDistanceAA = plant.pointA().distanceTo(anotherPlant.pointA()) < 0.1;
+          const isZeroDistanceAB = plant.pointA().distanceTo(anotherPlant.pointB()) < 0.1;
           if (isZeroDistanceAA || isZeroDistanceAB) {
             plant.addConnectedPlants(anotherPlant, 'A');
           }
-          const isZeroDistanceBB = plant.pointB().distanceTo(anotherPlant.pointB()) === 0;
-          const isZeroDistanceBA = plant.pointB().distanceTo(anotherPlant.pointA()) === 0;
+          const isZeroDistanceBB = plant.pointB().distanceTo(anotherPlant.pointB()) < 0.1;
+          const isZeroDistanceBA = plant.pointB().distanceTo(anotherPlant.pointA()) < 0.1;
           if (isZeroDistanceBA || isZeroDistanceBB) {
             plant.addConnectedPlants(anotherPlant, 'B');
           }
@@ -178,8 +178,20 @@ class LSystem {
       }
     }
   }
+  filterOutRedundantPlants(plant) {
+    if (plant instanceof Plant) {
+      const myPlant = plant as Plant;
+      const aConnected = myPlant.connectedPlants.get('A');
+      const bConnected = myPlant.connectedPlants.get('B');
+      const aIsMoreThanOne = aConnected && aConnected.length > 1;
+      const bIsMoreThanOne = bConnected && bConnected.length > 1;
+      return aIsMoreThanOne || bIsMoreThanOne;
+    }
+    return true;
+  }
   getPlants() {
-    return this.plants;
+    console.log(this.plants)
+    return this.plants;//.filter(this.filterOutRedundantPlants);
   }
 }
 

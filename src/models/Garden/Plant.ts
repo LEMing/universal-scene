@@ -5,6 +5,7 @@ import DrawableObject from './DrawableObject';
 import {IPlant} from './types';
 import * as THREE from 'three';
 import grassTexture from './textures/TexturesCom_Grass0126_1_seamless_S_128.jpg';
+import {getMiddlePoint} from './utils';
 // import {getCablePaths} from './utils';
 
 class Plant extends DrawableObject {
@@ -32,9 +33,8 @@ class Plant extends DrawableObject {
     if (plants) {
       this.connectedPlants.set(point, [...plants, plant]);
     } else {
-
+      this.connectedPlants.set(point, [plant]);
     }
-    this.connectedPlants.set(point, [plant]);
   }
   pointB() {
     return this.b;
@@ -67,11 +67,20 @@ class Plant extends DrawableObject {
 
     end.position.copy(this.pointB());
     const start = end.clone();
+    const inter = end.clone();
+    const interA = end.clone();
+    const interB = end.clone();
+    inter.position.copy(getMiddlePoint(this.a, this.b));
+    interA.position.copy(getMiddlePoint(inter.position, this.a));
+    interB.position.copy(getMiddlePoint(inter.position, this.b));
     start.position.copy(this.pointA())
     // this.group.add(mesh)
-    // this.group.add(end);
-    // this.group.add(start)
-    this.group.add(cylinder)
+    this.group.add(end);
+    this.group.add(interA);
+    this.group.add(inter);
+    this.group.add(interB);
+    this.group.add(start)
+    // this.group.add(cylinder)
     return this.group;
   }
 
