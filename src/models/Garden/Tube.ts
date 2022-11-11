@@ -14,9 +14,9 @@ interface ITubeParams {
 
 const DEFAULT_OPTIONS = {
   tubularSegments: 1,
-  radius: 0.025,
-  radiusSegments: 3,
-  color: 0x00FF00,
+  radius: 0.25,
+  radiusSegments: 32,
+  color: 0xA46755,
 };
 
 export default class Tube {

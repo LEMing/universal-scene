@@ -17,10 +17,10 @@ class LSystem {
   private readonly rootPosition: THREE.Vector3;
   constructor({generations, position}: ILSystem) {
     this.rootPosition = position;
-    this.axiom = 'F';
+    this.axiom = 'X';
     this.sentence = this.axiom;
     this.countOfGenerations = generations;
-    this.transformAngle = 25;
+    this.transformAngle = 360 / 9;
     this.length = 0.25;
     this.plants = [];
     this.calculate();
@@ -28,8 +28,12 @@ class LSystem {
   rules() {
     return [
       {
+        a: 'X',
+        b: 'F[+@X]F[-#X]+X'
+      },
+      {
         a: 'F',
-        b: 'FF+[+F-F-F]-[-F+F+F]'
+        b: 'FF'
       }
     ]
   }
@@ -62,19 +66,22 @@ class LSystem {
   }
   generatePlants() {
     let currentPosition: THREE.Vector3 = new Vector3().copy(this.rootPosition);
-    let currentAngle = 0;
+    let currentAngleX = 0;
+    let currentAngleZ = 0;
     let savedPoints: THREE.Vector3[] = [new THREE.Vector3()];
-    let savedAngles: number[] = [0];
+    let savedAnglesX: number[] = [0];
+    let savedAnglesZ: number[] = [0];
     for ( let i = 0; i < this.sentence.length; i++) {
       const c = this.sentence[i];
       switch (c) {
         case 'F': {
           // Draw a line
-          console.log(currentAngle);
-          const alfa = MathUtils.degToRad(90 - currentAngle);
-          const x = currentPosition.x + this.length * Math.cos(alfa);
-          const y = currentPosition.y + this.length * Math.sin(alfa);
-          const z = 0;
+          console.log(currentAngleX);
+          const alfaX = MathUtils.degToRad(90 - currentAngleX);
+          const alfaZ = MathUtils.degToRad(90 - currentAngleZ);
+          const x = currentPosition.x + this.length * Math.cos(alfaX);
+          const y = currentPosition.y + this.length * Math.sin(alfaX);
+          const z = currentPosition.z + this.length * Math.cos(alfaZ);
           const nextPoint = new THREE.Vector3(x, y, z);
           const plant = new Plant({a: currentPosition.clone(), b: nextPoint});
           currentPosition = nextPoint.clone();
@@ -83,18 +90,28 @@ class LSystem {
         }
         case '+': {
           // Turn right
-          currentAngle += this.transformAngle;
+          currentAngleX += this.transformAngle;
           break;
         }
         case '-': {
           // Turn left
-          currentAngle -= this.transformAngle;
+          currentAngleX -= this.transformAngle;
+          break;
+        }
+        case '@': {
+          // turn around z
+          currentAngleZ += this.transformAngle;
+          break;
+        }
+        case '#': {
+          // turn back around z
+          currentAngleZ -= this.transformAngle;
           break;
         }
         case '[': {
           // Save position and angle
           savedPoints.push(currentPosition.clone());
-          savedAngles.push(currentAngle);
+          savedAnglesX.push(currentAngleX);
           break;
         }
         case ']': {
@@ -104,11 +121,13 @@ class LSystem {
             currentPosition = savedPoint.clone();
           }
 
-          const savedAngle = savedAngles.pop()
-          console.log('savedAngles.pop()');
-          if (savedAngle || (savedAngle === 0)) {
-            currentAngle = savedAngle;
-            console.log({currentAngle})
+          const savedAngleX = savedAnglesX.pop()
+          if (savedAngleX || (savedAngleX === 0)) {
+            currentAngleX = savedAngleX;
+          }
+          const savedAngleZ = savedAnglesZ.pop()
+          if (savedAngleZ || (savedAngleZ === 0)) {
+            currentAngleZ = savedAngleZ;
           }
           break;
         }
