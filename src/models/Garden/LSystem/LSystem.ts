@@ -1,6 +1,6 @@
 import range from 'lodash/range';
 import {MathUtils, Vector3} from 'three';
-import DrawableObject from './DrawableObject';
+import DrawableObject from '../DrawableObject';
 import Leaf from './Leaf';
 import Plant from './Plant';
 import * as THREE from 'three';

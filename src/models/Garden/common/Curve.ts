@@ -1,6 +1,6 @@
 
 import * as THREE from 'three';
-import {getMiddlePoint} from './utils';
+import {getMiddlePoint} from '../utils';
 
 interface ICurveParams {
   startPoint: THREE.Vector3;

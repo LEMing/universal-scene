@@ -20,4 +20,5 @@ export const SELECTOR_CONFIG: SelectorRow[] = [
   {value: 'Datsun', label: 'Datsun'},
   {value: 'Porsche', label: 'Porsche'},
   {value: 'Truck', label: 'Truck'},
+  {value: 'Colonisation', label: 'Colonisation'},
 ]

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {Vector3} from 'three';
-import {createBoxOrSphere} from '../../components/utils';
-import DrawableObject from './DrawableObject';
+import {createBoxOrSphere} from '../../../components/utils';
+import DrawableObject from '../DrawableObject';
 
 class Leaf extends DrawableObject {
   private readonly position: Vector3;

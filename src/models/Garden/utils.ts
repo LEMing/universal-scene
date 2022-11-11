@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import Curve from './Curve';
+import Curve from './common/Curve';
 const randInt = THREE.MathUtils.randInt;
 export const getRandomAngle = () => {
   return THREE.MathUtils.degToRad(randInt(-15, 15));

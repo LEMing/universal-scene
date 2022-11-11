@@ -1,12 +1,12 @@
-import {createBoxOrSphere} from '../../components/utils';
-import {createCylinder} from '../../components/utils/builders';
-// import Cables from './Cables';
-import DrawableObject from './DrawableObject';
+import {createBoxOrSphere} from '../../../components/utils';
+import {createCylinder} from '../../../components/utils/builders';
+import DrawableObject from '../DrawableObject';
 import {IPlant} from './types';
 import * as THREE from 'three';
-import grassTexture from './textures/TexturesCom_Grass0126_1_seamless_S_128.jpg';
-import {getMiddlePoint} from './utils';
-// import {getCablePaths} from './utils';
+import grassTexture from '../textures/TexturesCom_Grass0126_1_seamless_S_128.jpg';
+import {getMiddlePoint} from '../utils';
+// import {getCablePaths} from '../utils';
+// import Cables from '../Cables';
 
 class Plant extends DrawableObject {
   private readonly a: THREE.Vector3;
