@@ -12,14 +12,14 @@ class LSystem {
     this.sentence = this.axiom;
     this.count = 0;
     this.calculate();
-    this.length = 1;
+    this.length = 0.1;
   }
   rules() {
     return [
       {
         a: 'F',
-        b: 'FF+[+F-F-F]-[-F+F+F]'
-      },
+        b: 'FF-[-F+F+F]+[+F-F-F]'
+      }
     ]
   }
   generateDNA(count: number = 1) {
@@ -72,12 +72,12 @@ class LSystem {
         }
         case '+': {
           // Turn right
-          angle += 15;
+          angle += 25.7;
           break;
         }
         case '-': {
           // Turn left
-          angle -= 15;
+          angle -= 25.7;
           break;
         }
         case '[': {

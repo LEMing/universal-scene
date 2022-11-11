@@ -39,8 +39,8 @@ class Plant {
     const start = end.clone();
     start.position.copy(this.pointA())
     this.group.add(mesh)
-    this.group.add(end)
-    this.group.add(start)
+    // this.group.add(end)
+    // this.group.add(start)
     return this.group;
   }
 
