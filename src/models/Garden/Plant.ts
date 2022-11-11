@@ -1,24 +1,35 @@
 import {createBoxOrSphere} from '../../components/utils';
 import Cables from './Cables';
+import DrawableObject from './DrawableObject';
 import {IPlant} from './types';
 import * as THREE from 'three';
 import grassTexture from './textures/TexturesCom_Grass0126_1_seamless_S_128.jpg';
 import {getCablePaths} from './utils';
 
-class Plant {
-  public readonly group: THREE.Group;
+class Plant extends DrawableObject {
   private readonly a: THREE.Vector3;
   private readonly b: THREE.Vector3;
+  public connectedPlants: Map<string, Plant[]>;
   constructor({a, b}: IPlant) {
+    super();
     this.a = a;
     this.b = b;
-    this.group = new THREE.Group();
+    this.connectedPlants = new Map();
   }
   getTexture() {
     return grassTexture;
   }
   pointA() {
     return this.a;
+  }
+  addConnectedPlants(plant: Plant, point: string) {
+    const plants = this.connectedPlants.get(point);
+    if (plants) {
+      this.connectedPlants.set(point, [...plants, plant]);
+    } else {
+
+    }
+    this.connectedPlants.set(point, [plant]);
   }
   pointB() {
     return this.b;

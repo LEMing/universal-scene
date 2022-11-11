@@ -1,5 +1,7 @@
 import range from 'lodash/range';
 import {MathUtils, Vector3} from 'three';
+import DrawableObject from './DrawableObject';
+import Leaf from './Leaf';
 import Plant from './Plant';
 import * as THREE from 'three';
 
@@ -13,8 +15,9 @@ class LSystem {
   private sentence: string;
   private length: number;
   private readonly transformAngle: number;
-  private readonly plants: Plant[];
+  private readonly plants: DrawableObject[];
   private readonly rootPosition: THREE.Vector3;
+  private readonly leavesPositions: THREE.Vector3[];
   constructor({generations, position}: ILSystem) {
     this.rootPosition = position;
     this.axiom = 'X';
@@ -23,13 +26,14 @@ class LSystem {
     this.transformAngle = 360 / 9;
     this.length = 0.25;
     this.plants = [];
+    this.leavesPositions = [];
     this.calculate();
   }
   rules() {
     return [
       {
         a: 'X',
-        b: 'F[+@X]F[-#X]+X'
+        b: 'F[+@X]F[-#X]+@X'
       },
       {
         a: 'F',
@@ -53,7 +57,6 @@ class LSystem {
         nextSentence += current;
       }
     }
-    console.log(nextSentence)
     this.sentence = nextSentence;
   }
   calculate() {
@@ -62,7 +65,43 @@ class LSystem {
     })
     this.length *= 0.5 * this.countOfGenerations;
     this.generatePlants();
+    this.calculateLeaves();
+    this.generateLeaves();
     console.log("Generation " + this.countOfGenerations + ": " + this.sentence);
+  }
+  calculateLeaves() {
+    for (let i = 0; i < this.plants.length; i++) {
+      const plant = this.plants[i] as Plant;
+      for (let j = 0; j < this.plants.length; j++) {
+        if (plant !== this.plants[j]) {
+          const anotherPlant = this.plants[j] as Plant;
+          const isZeroDistanceAA = plant.pointA().distanceTo(anotherPlant.pointA()) === 0;
+          const isZeroDistanceAB = plant.pointA().distanceTo(anotherPlant.pointB()) === 0;
+          if (isZeroDistanceAA || isZeroDistanceAB) {
+            plant.addConnectedPlants(anotherPlant, 'A');
+          }
+          const isZeroDistanceBB = plant.pointB().distanceTo(anotherPlant.pointB()) === 0;
+          const isZeroDistanceBA = plant.pointB().distanceTo(anotherPlant.pointA()) === 0;
+          if (isZeroDistanceBA || isZeroDistanceBB) {
+            plant.addConnectedPlants(anotherPlant, 'B');
+          }
+        }
+      }
+    }
+    this.plants.forEach((plant) => {
+      const forSurePlant = plant as Plant;
+      const isItRoot = forSurePlant.pointA().distanceTo(this.rootPosition) === 0;
+      if (forSurePlant.connectedPlants.size === 1 && !isItRoot) {
+        this.leavesPositions.push(forSurePlant.pointB());
+      }
+    });
+    console.log({leaves: this.leavesPositions})
+  }
+  generateLeaves() {
+    this.leavesPositions.forEach(position => {
+      const leaf = new Leaf({position});
+      this.plants.push(leaf);
+    })
   }
   generatePlants() {
     let currentPosition: THREE.Vector3 = new Vector3().copy(this.rootPosition);
@@ -76,7 +115,6 @@ class LSystem {
       switch (c) {
         case 'F': {
           // Draw a line
-          console.log(currentAngleX);
           const alfaX = MathUtils.degToRad(90 - currentAngleX);
           const alfaZ = MathUtils.degToRad(90 - currentAngleZ);
           const x = currentPosition.x + this.length * Math.cos(alfaX);

@@ -1,15 +1,15 @@
 import {SelectorRow} from '../../components/ViewerWrapper/types';
 import WorldFactory from '../WorldFactory';
 import * as THREE from 'three';
+import DrawableObject from './DrawableObject';
 import getGarden from './getGarden';
-import Plant from './Plant';
 
 export const GARDEN: SelectorRow[] = [
   {value: 'Garden', label: 'Garden'},
 ]
 
 class GardenFactory extends WorldFactory {
-  public garden: Plant[];
+  public garden: DrawableObject[];
   constructor() {
     super();
     this.dictionary = GARDEN;
