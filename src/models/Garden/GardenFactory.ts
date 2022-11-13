@@ -3,10 +3,10 @@ import WorldFactory from '../WorldFactory';
 import * as THREE from 'three';
 import DrawableObject from './DrawableObject';
 import getColonialGarden from './Colonisation/getColonialGarden';
-import getGarden from './getGarden';
+import getGarden from './LSystem/getGarden';
 
 export const GARDEN: SelectorRow[] = [
-  {value: 'Garden', label: 'Garden'},
+  {value: 'L-System', label: 'L-System'},
   {value: 'Colonisation', label: 'Colonisation'},
 ]
 
@@ -16,17 +16,19 @@ class GardenFactory extends WorldFactory {
   constructor() {
     super();
     this.dictionary = GARDEN;
-    this.garden = getGarden();
-    this.group = new THREE.Group;
+    this.group = new THREE.Group();
+    this.garden = []
   }
   savedToTheGroup() {
-    this.group = new THREE.Group;
+    this.group = new THREE.Group();
     this.garden.forEach(object => {
       this.group.add(object.draw())
     })
   }
   getModelByLabel(label: string) {
-    if (label === 'Garden') {
+    if (label === 'L-System') {
+      this.garden = getGarden();
+
       this.savedToTheGroup();
       return Promise.resolve(this.group);
     } else if (label === 'Colonisation') {

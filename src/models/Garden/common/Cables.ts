@@ -5,15 +5,18 @@ import Tube from './Tube';
 interface ICableParams {
   curves: THREE.QuadraticBezierCurve3[];
   thickness: number;
+  color: number;
 }
 
 export default class Cables {
   private readonly curves: THREE.QuadraticBezierCurve3[];
   private readonly thickness: number;
+  private color: number;
 
-  constructor({curves, thickness}: ICableParams) {
+  constructor({curves, thickness, color}: ICableParams) {
     this.thickness = thickness;
     this.curves = curves;
+    this.color = color;
   }
 
   private generatePrimaryCables() {
@@ -21,6 +24,7 @@ export default class Cables {
     this.curves.forEach((curve) => {
       const tube = new Tube({curve, options: {
           radius: this.thickness,
+          color: this.color,
         }});
       mainCablesGroup.add(tube.createObject3D());
     });

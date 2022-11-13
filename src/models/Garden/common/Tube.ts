@@ -34,7 +34,7 @@ export default class Tube {
       this.options.tubularSegments,
       this.options.radius,
       this.options.radiusSegments,
-      true,
+      false,
     );
   }
 

@@ -15,10 +15,10 @@ export const CAR_MODELS: SelectorRow[] = [
 ]
 
 export const SELECTOR_CONFIG: SelectorRow[] = [
-  {value: 'Garden', label: 'Garden'},
+  {value: 'Colonisation', label: 'Colonisation'},
+  {value: 'L-System', label: 'L-System'},
   {value: 'Galaxy', label: 'Galaxy'},
   {value: 'Datsun', label: 'Datsun'},
   {value: 'Porsche', label: 'Porsche'},
   {value: 'Truck', label: 'Truck'},
-  {value: 'Colonisation', label: 'Colonisation'},
 ]

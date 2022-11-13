@@ -1,4 +1,4 @@
-import DrawableObject from './DrawableObject';
+import DrawableObject from '../DrawableObject';
 import LSystem from './LSystem';
 import * as THREE from 'three';
 

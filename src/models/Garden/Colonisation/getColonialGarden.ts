@@ -1,11 +1,15 @@
-import * as THREE from 'three';
 import DrawableObject from '../DrawableObject';
-import LSystem from '../LSystem';
+import Tree from './Tree';
+import range from 'lodash/range';
 
 const getColonialGarden = () => {
   const garden: DrawableObject[] = [];
-  const plantsA = new LSystem({generations:4, position: new THREE.Vector3(0, 0, 0)}).getPlants();
-  garden.push(...plantsA);
+  // const minDist: number = 0.1;
+  // const maxDist: number = 10;
+  const tree = new Tree();
+  range(10).forEach(() => tree.grow())
+  garden.push(tree);
+  console.log(tree)
   return garden;
 }
 
