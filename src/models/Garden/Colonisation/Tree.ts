@@ -3,19 +3,22 @@ import DrawableObject from '../DrawableObject';
 import Branch from './Branch';
 import Leaf from './Leaf';
 import range from 'lodash/range';
-import {getRandomPoint} from './utils';
+import {getRandomPointFromBox} from './utils';
+import * as THREE from 'three';
 
 class Tree extends DrawableObject {
   private _leaves: Leaf[] = [];
   private _branches: Branch[] = [];
   private readonly root: Branch;
-  private minDist: number = 0.2;
+  private minDist: number = 1;
   private maxDist: number = 5;
   private readonly position: Vector3;
+  private readonly leavesVolume: THREE.Box3;
   constructor() {
     super();
+    this.leavesVolume = new THREE.Box3(new THREE.Vector3(-10, 10, -10), new THREE.Vector3(10, 40, 10))
     this.createLeaves();
-    this.position = new Vector3(0, -19, 0);
+    this.position = new Vector3(0, 0, 0);
     this.root = new Branch({position: this.position, parent: null, direction: new Vector3(0, 1, 0)});
     this._branches.push(this.root);
     this.growToLeaves();
@@ -45,13 +48,12 @@ class Tree extends DrawableObject {
         break;
       }
     }
-   console.log(this.branches)
   }
 
   createLeaves() {
     this._leaves = [];
-    range(100).forEach(() => {
-      this._leaves.push(new Leaf({position: getRandomPoint(-10, 10)}));
+    range(300).forEach(() => {
+      this._leaves.push(new Leaf({position: getRandomPointFromBox(this.leavesVolume)}));
     });
   }
 
@@ -71,7 +73,7 @@ class Tree extends DrawableObject {
 
       for (const branchKey in this.branches) {
         const branch = this.branches[branchKey];
-        const distance = branch.position.distanceTo(leaf.position);
+        const distance = leaf.position.distanceTo(branch.position);
         if (distance < this.minDist) {
           leaf.reached = true;
           closestBranch = null;
@@ -79,15 +81,15 @@ class Tree extends DrawableObject {
         } else if (distance < record) {
           closestBranch = branch;
           record = distance;
-          console.log({record, leaf, branch: branchKey})
         }
       }
 
-      if (closestBranch !== null) {
+      if (closestBranch !== null ) {
         const newDirection = leaf.position.clone().sub(closestBranch.position.clone());
         newDirection.normalize();
-
-        closestBranch.position.add(newDirection);
+        if (closestBranch !== this.root) {
+          closestBranch.direction.add(newDirection);
+        }
         closestBranch.count++;
       }
 
@@ -107,16 +109,17 @@ class Tree extends DrawableObject {
   }
 
   removeReachedLeafs() {
-    console.log('removeReachedLeafs')
+    console.log('removeReachedLeafs');
     for (let i = this._leaves.length - 1; i >= 0; i--) {
       if (this._leaves[i].reached) {
+        this._leaves[i].group.visible = false;
         this._leaves.slice(i, 1);
       }
     }
   }
 
   draw() {
-    this.leaves.forEach(leaf => this.group.add(leaf.draw()));
+    // this.leaves.forEach(leaf => this.group.add(leaf.draw()));
     this.branches.forEach(branch => this.group.add(branch.draw()));
     return this.group;
   }
