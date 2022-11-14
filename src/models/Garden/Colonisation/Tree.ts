@@ -10,13 +10,13 @@ class Tree extends DrawableObject {
   private _leaves: Leaf[] = [];
   private _branches: Branch[] = [];
   private readonly root: Branch;
-  private minDist: number = 1;
-  private maxDist: number = 5;
+  private minDist: number = 3;
+  private maxDist: number = 20;
   private readonly position: Vector3;
   private readonly leavesVolume: THREE.Box3;
   constructor() {
     super();
-    this.leavesVolume = new THREE.Box3(new THREE.Vector3(-10, 10, -10), new THREE.Vector3(10, 40, 10))
+    this.leavesVolume = new THREE.Box3(new THREE.Vector3(-10, 10, -10), new THREE.Vector3(10, 60, 10))
     this.createLeaves();
     this.position = new Vector3(0, 0, 0);
     this.root = new Branch({position: this.position, parent: null, direction: new Vector3(0, 1, 0)});

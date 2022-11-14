@@ -8,7 +8,7 @@ const getColonialGarden = () => {
   // const minDist: number = 0.1;
   // const maxDist: number = 10;
   const tree = new Tree();
-  range(20).forEach(() => tree.grow())
+  range(40).forEach(() => tree.grow())
   tree.group.position.copy(new THREE.Vector3(0, 0, 0))
   garden.push(tree);
   console.log(tree)
