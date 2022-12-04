@@ -1,5 +1,5 @@
 import React, {Dispatch, useCallback, useState} from 'react';
-import {ViewerOptions} from '../../../TinyViewer/types';
+import {ViewerOptions} from 'tiny-viewer';
 import get from 'lodash/get';
 import useUpdateData from "../commonHooks/useUpdateData";
 

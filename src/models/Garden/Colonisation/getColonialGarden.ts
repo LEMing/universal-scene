@@ -11,7 +11,6 @@ const getColonialGarden = () => {
   range(40).forEach(() => tree.grow())
   tree.group.position.copy(new THREE.Vector3(0, 0, 0))
   garden.push(tree);
-  console.log(tree)
   return garden;
 }
 

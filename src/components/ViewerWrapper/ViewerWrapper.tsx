@@ -3,14 +3,12 @@ import runGalaxyAnimation from '../../models/Galaxy/getGalaxyAnimation';
 import Planet from '../../models/Galaxy/Planet';
 import ModelFactory from '../../models/ModelFactory';
 import StarsFactory from '../../models/Galaxy/StarsFactory';
-import {Viewer} from '../TinyViewer';
+import {Viewer, DEFAULT_VIEWER_OPTIONS} from 'tiny-viewer';
 import * as THREE from 'three';
 import Checkbox from './components/Checkbox';
 import NumberInput from './components/NumberInput';
 import Selector from './components/Selector';
 import {SELECTOR_CONFIG} from './config';
-
-import {DEFAULT_VIEWER_OPTIONS} from '../TinyViewer/constants';
 import ColorInput from './components/ColorInput';
 import './ViewerWrapper.scss';
 
@@ -35,7 +33,6 @@ const ViewerWrapper = () => {
   }, [scene, label, controller]);
 
   const handleSelect = useCallback((event) => {
-    console.log(event.target.value)
     setLabel(event.target.value);
   }, [setLabel]);
 

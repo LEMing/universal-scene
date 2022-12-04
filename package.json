@@ -4,20 +4,20 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.3.1",
+    "tiny-viewer": "/Users/Alex/Documents/GitHub/TinyViewer/TinyViewer",
     "lodash": "^4.17.21",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "sass": "^1.50.0",
-    "three": "^0.139.2",
+    "three": "^0.147.0",
     "typescript": "^4.6.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "NODE_ENV=test jest",
-    "eject": "react-scripts eject"
+    "start": "NODE_ENV=development webpack-dev-server --open",
+    "build": "NODE_ENV=development webpack",
+    "test": "NODE_ENV=test jest"
   },
   "eslintConfig": {
     "extends": [
@@ -61,6 +61,18 @@
     "babel-jest": "^27.3.1",
     "babel-loader": "^8.0.6",
     "babel-plugin-lodash": "^3.3.4",
-    "jest": "^27.3.1"
+    "babel-polyfill": "^6.26.0",
+    "copy-webpack-plugin": "^10.0.0",
+    "dotenv-webpack": "^8.0.1",
+    "html-webpack-plugin": "^5.5.0",
+    "jest": "^27.3.1",
+    "moment-locales-webpack-plugin": "^1.2.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "webpack": "^5.74.0",
+    "webpack-bundle-analyzer": "^4.7.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.5.0"
   }
 }

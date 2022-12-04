@@ -1,5 +1,6 @@
 import {waitFor} from '@testing-library/react';
-import {loadGLB} from '../loaders';
+import {viewerUtils} from 'tiny-viewer';
+const {loadGLB} = viewerUtils;
 
 describe('Loaders utils', function () {
   test('Should load a 3d model object', async () => {

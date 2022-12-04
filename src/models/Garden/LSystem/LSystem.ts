@@ -71,7 +71,6 @@ class LSystem {
       this.calculateLeaves();
       this.generateLeaves();
     }
-    console.log("Generation " + this.countOfGenerations + ": " + this.sentence);
   }
   calculateLeaves() {
     for (let i = 0; i < this.plants.length; i++) {
@@ -99,7 +98,6 @@ class LSystem {
         this.leavesPositions.push(forSurePlant.pointB());
       }
     });
-    console.log({leaves: this.leavesPositions});
   }
   generateLeaves() {
     this.leavesPositions.forEach(position => {
@@ -190,7 +188,6 @@ class LSystem {
     return true;
   }
   getPlants() {
-    console.log(this.plants)
     return this.plants;//.filter(this.filterOutRedundantPlants);
   }
 }

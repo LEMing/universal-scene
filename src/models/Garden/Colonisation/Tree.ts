@@ -38,7 +38,6 @@ class Tree extends DrawableObject {
         }
       });
       if (!found) {
-        console.log('Not found')
         const branch = current.next();
         current = branch;
         this.branches.push(branch);
@@ -109,7 +108,6 @@ class Tree extends DrawableObject {
   }
 
   removeReachedLeafs() {
-    console.log('removeReachedLeafs');
     for (let i = this._leaves.length - 1; i >= 0; i--) {
       if (this._leaves[i].reached) {
         this._leaves[i].group.visible = false;

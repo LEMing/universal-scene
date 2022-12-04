@@ -1,2 +1,3 @@
-export {createBoxOrSphere} from './builders';
-export {loadGLB} from './loaders';
+import {viewerUtils} from 'tiny-viewer';
+
+export const {createBoxOrSphere, loadGLB} = viewerUtils;

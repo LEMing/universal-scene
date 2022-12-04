@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import {createBoxOrSphere} from '../../../components/utils';
-import {createCylinder} from '../../../components/utils/builders';
+import {viewerUtils} from 'tiny-viewer';
 import DrawableObject from '../DrawableObject';
-
+const {createCylinder} = viewerUtils;
 class BranchLeaf extends DrawableObject {
   private readonly a: THREE.Vector3;
   private b: THREE.Vector3;
