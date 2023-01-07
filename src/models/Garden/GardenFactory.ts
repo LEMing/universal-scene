@@ -1,6 +1,7 @@
 import {SelectorRow} from '../../components/ViewerWrapper/types';
 import WorldFactory from '../WorldFactory';
 import * as THREE from 'three';
+import getAIGeneratedModel from './AIGenerated/getAIGeneratedModel';
 import DrawableObject from './DrawableObject';
 import getColonialGarden from './Colonisation/getColonialGarden';
 import getGarden from './LSystem/getGarden';
@@ -8,6 +9,7 @@ import getGarden from './LSystem/getGarden';
 export const GARDEN: SelectorRow[] = [
   {value: 'L-System', label: 'L-System'},
   {value: 'Colonisation', label: 'Colonisation'},
+  {value: 'OpenAI Generated', label: 'OpenAI Generated'},
 ]
 
 class GardenFactory extends WorldFactory {
@@ -26,15 +28,22 @@ class GardenFactory extends WorldFactory {
     })
   }
   getModelByLabel(label: string) {
-    if (label === 'L-System') {
-      this.garden = getGarden();
-
-      this.savedToTheGroup();
-      return Promise.resolve(this.group);
-    } else if (label === 'Colonisation') {
-      this.garden = getColonialGarden();
-      this.savedToTheGroup();
-      return Promise.resolve(this.group);
+    switch (label) {
+      case 'L-System': {
+        this.garden = getGarden();
+        this.savedToTheGroup();
+        return Promise.resolve(this.group);
+      }
+      case 'Colonisation': {
+        this.garden = getColonialGarden();
+        this.savedToTheGroup();
+        return Promise.resolve(this.group);
+      }
+      case 'OpenAI Generated': {
+        this.garden = getAIGeneratedModel();
+        this.savedToTheGroup();
+        return Promise.resolve(this.group);
+      }
     }
   }
 }
