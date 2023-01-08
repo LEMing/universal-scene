@@ -8,8 +8,9 @@
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.6.1",
     "three": "^0.147.0",
-    "tiny-viewer": "1.0.0"
+    "tiny-viewer": "/Users/Alex/Documents/GitHub/TinyViewer/TinyViewer"
   },
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --open",
