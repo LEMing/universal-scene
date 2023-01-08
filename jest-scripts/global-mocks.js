@@ -1,4 +1,4 @@
-import mockRenderer from '../src/components/TinyViewer/__mocks__/mockRenderer';
+import mockRenderer from 'tiny-viewer/src/__mocks__/mockRenderer';
 
 jest.mock('three/examples/jsm/loaders/RGBELoader', () => ({
   RGBELoader: jest.fn().mockImplementation(() => {
@@ -12,13 +12,13 @@ global.ResizeObserver = jest.fn().mockImplementation(() => ({
   disconnect: jest.fn(),
 }));
 
-jest.mock('../src/components/TinyViewer/environment/environment', () => ({
-    ...jest.requireActual('../src/components/TinyViewer/environment/environment'),
+jest.mock('tiny-viewer/src/environment/environment', () => ({
+    ...jest.requireActual('tiny-viewer/src/environment/environment'),
     createRenderer: jest.fn().mockImplementation(() => mockRenderer),
   }),
 );
 
-jest.mock('../src/components/TinyViewer/hooks/useClientSize', () => () => ({
+jest.mock('tiny-viewer/src/hooks/useClientSize', () => () => ({
   clientSize: {clientHeight: 2, clientWidth: 2},
   mountingPoint: jest.fn()
 }));

@@ -1,5 +1,5 @@
 import {Dispatch, useEffect} from "react";
-import {ViewerOptions} from "../../../TinyViewer/types";
+import {type ViewerOptions} from 'tiny-viewer';
 import set from 'lodash/set';
 
 type UseUpdateData = {

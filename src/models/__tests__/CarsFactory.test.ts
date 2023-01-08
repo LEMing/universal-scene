@@ -2,7 +2,7 @@ import CarsFactory from "../CarsFactory";
 import * as THREE from 'three';
 
 const mockObject3D = new THREE.Object3D();
-jest.mock('../../components/utils/loaders', () => ({
+jest.mock('tiny-viewer/src/utils/loaders', () => ({
     loadGLB: () => {
         return Promise.resolve(mockObject3D)
     },

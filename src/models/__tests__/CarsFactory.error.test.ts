@@ -1,6 +1,6 @@
 import CarsFactory from "../CarsFactory";
 
-jest.mock('../../components/utils/loaders', () => ({
+jest.mock('tiny-viewer/src/utils/loaders', () => ({
     loadGLB: () => {
         throw new Error('Test error')
     }

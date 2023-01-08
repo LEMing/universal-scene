@@ -1,36 +1,38 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import {Viewer} from '../TinyViewer';
+import runGalaxyAnimation from '../../models/Galaxy/getGalaxyAnimation';
+import Planet from '../../models/Galaxy/Planet';
+import ModelFactory from '../../models/ModelFactory';
+import StarsFactory from '../../models/Galaxy/StarsFactory';
+import {Viewer, DEFAULT_VIEWER_OPTIONS} from 'tiny-viewer';
 import * as THREE from 'three';
 import Checkbox from './components/Checkbox';
 import NumberInput from './components/NumberInput';
 import Selector from './components/Selector';
 import {SELECTOR_CONFIG} from './config';
-
-import {DEFAULT_VIEWER_OPTIONS} from '../TinyViewer/constants';
 import ColorInput from './components/ColorInput';
-import CarsFactory from '../../models/CarsFactory';
 import './ViewerWrapper.scss';
 
 const ViewerWrapper = () => {
   const [scene, setScene] = useState<THREE.Scene | null>(null);
   const [label, setLabel] = useState(SELECTOR_CONFIG[0].label);
   const [options, setOptions] = useState(DEFAULT_VIEWER_OPTIONS);
+  const [controller, setController] = useState<Planet[]>();
 
-  const object3D = useMemo(async () => {
-    return new CarsFactory().getModelByLabel(label);
+  const object3D: Promise<THREE.Object3D> | undefined = useMemo(() => {
+    const factory = new ModelFactory().getCurrentFactory(label);
+    if (factory instanceof StarsFactory) {
+      setController(factory.galaxy)
+    }
+    return factory?.getModelByLabel(label);
   }, [label]);
 
   const animationRunner = useCallback(() => {
-    if (scene) {
-      const object = scene.getObjectByName('object-label');
-      if (object) {
-         // object.rotateY(0.001);
-      }
+    if (label === 'Galaxy' && scene && controller) {
+      runGalaxyAnimation(scene, controller);
     }
-  }, [scene]);
+  }, [scene, label, controller]);
 
   const handleSelect = useCallback((event) => {
-    console.log(event.target.value)
     setLabel(event.target.value);
   }, [setLabel]);
 
@@ -71,9 +73,6 @@ const ViewerWrapper = () => {
       </div>
       <div className="viewer-wrapper-container">
         <Viewer animationRunner={animationRunner} dispatchers={{setScene}} object3D={object3D} options={options}/>
-      </div>
-      <div className="viewer-wrapper-container">
-        <Viewer/>
       </div>
     </div>
   )

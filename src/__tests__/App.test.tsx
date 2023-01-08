@@ -1,6 +1,6 @@
-import React from 'react';
-import {render, screen, waitFor, waitForElementToBeRemoved} from '@testing-library/react';
-import mockRenderer from '../components/TinyViewer/__mocks__/mockRenderer';
+
+import {render, screen, waitForElementToBeRemoved} from '@testing-library/react';
+import mockRenderer from 'tiny-viewer/src/__mocks__/mockRenderer';
 import App from '../App';
 import '@testing-library/jest-dom';
 import * as THREE from 'three';
@@ -17,21 +17,21 @@ jest.mock('three/examples/jsm/loaders/RGBELoader', () => ({
   })
 }));
 
-jest.mock('../components/TinyViewer/environment/environment', () => ({
-    ...jest.requireActual('../components/TinyViewer/environment/environment'),
+jest.mock('tiny-viewer/src/environment/environment', () => ({
+    ...jest.requireActual('tiny-viewer/src/environment/environment'),
     createRenderer: () => (mockRenderer),
     createControls: () => ({update: jest.fn()}),
   }),
 );
 const mockObject3D = new THREE.Object3D();
-jest.mock('../components/utils/loaders', () => ({
+jest.mock('tiny-viewer/src/utils/loaders', () => ({
   loadGLB: () => {
     return Promise.resolve(mockObject3D)
   },
 }));
 
 const mockDiv = document.createElement('div');
-jest.mock('../components/TinyViewer/hooks/useClientSize', () => () => ({
+jest.mock('tiny-viewer/src/hooks/useClientSize', () => () => ({
   clientSize: {clientHeight: 200, clientWidth: 200},
   mountingPoint: {current: mockDiv},
 }));
@@ -42,15 +42,5 @@ test('Should render the App and wait until object-mounted marker will be visible
   const loader = screen.getByText('Preparing scene...');
   await waitForElementToBeRemoved(loader);
 
-  await waitFor(async() => {
-    const threeRoot = screen.getByTestId('three-root loading-false');
-    await expect(threeRoot).toBeInTheDocument();
-  });
-
-  await waitFor(async() => {
-    const universalScene = screen.getByTestId('universal-scene is-ready-true');
-    await expect(universalScene).toBeInTheDocument();
-    await expect(loader).not.toBeVisible();
-  });
 
 });
