@@ -83,6 +83,11 @@ const config = {
     ],
   },
   plugins: [
+    new CopyPlugin({
+      patterns: [
+        {from: './node_modules/cad-3d-data/data', to: '3d-data'},
+      ],
+    }),
     new htmlWebpackPlugin({
       template: `./src/app.html`,
       filename: `${APP_DIST_PATH}/index.html`,

@@ -11,7 +11,9 @@ import Selector from './components/Selector';
 import {SELECTOR_CONFIG} from './config';
 import ColorInput from './components/ColorInput';
 import './ViewerWrapper.scss';
-
+DEFAULT_VIEWER_OPTIONS.environment.sceneOptions.sceneColor = 0x000000;
+DEFAULT_VIEWER_OPTIONS.environment.lightOptions.skyColor = 0xFFFFFF;
+DEFAULT_VIEWER_OPTIONS.environment.lightOptions.groundColor = 0x000000;
 const ViewerWrapper = () => {
   const [scene, setScene] = useState<THREE.Scene | null>(null);
   const [label, setLabel] = useState(SELECTOR_CONFIG[0].label);

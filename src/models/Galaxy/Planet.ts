@@ -7,12 +7,12 @@ import earthMap4k from './textures/8081_earthmap4k.jpg';
 import moonMap4k from './textures/moonmap4k.jpg';
 
 class Planet {
-  protected readonly radius: number;
+  public readonly radius: number;
   protected angle: number;
   public planets?: Planet[];
   private readonly distance: number;
   private readonly orbitSpeed: number;
-  private readonly planetGroup: THREE.Group;
+  readonly planetGroup: THREE.Group;
   private readonly color: number;
   private type: 'Moon' | 'Earth';
   constructor({radius, angle, distance, color, type}: IPlanet) {
@@ -54,7 +54,7 @@ class Planet {
       case 'Moon': return moonMap4k;
     }
   }
-  addPlanet() {
+  async addPlanet() {
     const planet = createBoxOrSphere(
       {size: new THREE.Vector3().setScalar(this.radius),
         name: 'Planet',
@@ -62,7 +62,10 @@ class Planet {
         type: 'sphere',
       });
     const texture = new THREE.TextureLoader().load( this.getTexture() );
+
     const material = new THREE.MeshPhysicalMaterial( { map: texture } );
+    material.transparent = true;
+    material.opacity = 0.8;
     planet.material = material;
     this.planetGroup.add(planet);
   }

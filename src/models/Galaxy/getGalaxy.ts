@@ -1,20 +1,17 @@
+import FenceAroundPlanet from './FenceAroundPlanet';
 import Planet from './Planet';
 import * as THREE from 'three';
 
 const getGalaxy = () => {
-  const galaxy: Planet[] = [];
-  const planet = new Planet({radius: 1, angle: 0, type: 'Earth'});
-  planet.spawnMoons(3);
+  const galaxy: FenceAroundPlanet[] = [];
+  const planet = new Planet({radius: 50 * 12, angle: 0, type: 'Earth'});
+
+  planet.spawnMoons(2);
   planet.planets?.forEach((moon) => {
-       moon.spawnMoons(THREE.MathUtils.randInt(0, 3));
-       moon.planets?.forEach(satellite => {
-         satellite.spawnMoons(THREE.MathUtils.randInt(0, 3));
-         satellite?.planets?.forEach((asteroid => {
-           asteroid.spawnMoons(THREE.MathUtils.randInt(0, 3))
-         }));
-       })
+       moon.spawnMoons(THREE.MathUtils.randInt(0, 1));
   })
-  galaxy.push(planet);
+  const fencePlanet = new FenceAroundPlanet(planet);
+  galaxy.push(fencePlanet);
   return galaxy;
 }
 
